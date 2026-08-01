@@ -1,0 +1,11 @@
+"""Local development entrypoint.
+
+Run with:  python run.py
+The reload=True flag hot-reloads on file changes. Uvicorn is what the production
+deployment (Render) will invoke instead, with ``--workers`` for concurrency.
+"""
+
+import uvicorn
+
+if __name__ == "__main__":
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

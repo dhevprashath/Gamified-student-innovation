@@ -1,0 +1,30 @@
+[project]
+name = "innoquest-backend"
+version = "1.0.0"
+description = "InnoQuest API - AI-powered gamified student innovation platform"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["app", "tests", "alembic"]
+# Generated migrations use Alembic's generic template; don't lint them.
+exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+# "I" - import sorting, "B" - bugbear correctness, "UP" - modern py3.12 idioms,
+# "SIM" - simplify. We intentionally skip docstring/pedantic rules to avoid noise.
+
+# FastAPI's `Depends()`/`OAuth2PasswordBearer()` in argument defaults is the
+# canonical DI pattern; ruff's B008 must not flag it.
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.security.OAuth2PasswordBearer"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+python_files = ["test_*.py"]
