@@ -27,7 +27,7 @@ alembic upgrade head          # creates backend\innoquest.db if missing
 ## 1. Backend (port 8000)
 
 ```powershell
-cd backend
+  cd backend
 .\.venv\Scripts\activate
 copy .env.example .env        # once; already created in this workspace
 alembic upgrade head          # apply migrations / (re)create sample SQLite db
@@ -53,24 +53,11 @@ npm run dev                   # start dev server -> http://localhost:5173
 The Vite dev proxy (`vite.config.ts`) forwards `/api/*` to `http://localhost:8000`, so
 the HttpOnly cookie auth flow needs no CORS setup during development.
 
-## Test & lint
 
-```powershell
-# Backend
 cd backend
-.\.venv\Scripts\pytest                      # API tests (uses the real app + SQLite)
-.\.venv\Scripts\ruff check app tests alembic
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
 
-# Frontend
 cd frontend
-npm run build                               # tsc typecheck + production build
-```
-
-## Resetting the sample database
-
-```powershell
-cd backend
-.\.venv\Scripts\activate
-Remove-Item .\innoquest.db -ErrorAction SilentlyContinue
-alembic upgrade head                        # recreate from migrations
-```
+npm install
+npm run dev

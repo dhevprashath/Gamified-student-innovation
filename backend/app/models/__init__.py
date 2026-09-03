@@ -1,10 +1,22 @@
-"""ORM models.
+from app.database import Base
+from .user import User
+from .project import Project
+from .innovation import InnovationAnalysis
+from .research_gap import ResearchGap
+from .journey import JourneyStage, JourneyProgress
+from .badge import Badge
+from .readiness import ProjectReadiness
+from .pitch import Pitch
 
-Every model lives in this package and is imported here so Alembic's autogenerate
-and ``Base.metadata`` see the full schema. Domain models are added per phase
-(Auth -> users, Ideas -> ideas, ...).
-"""
-
-from app.db.base import Base
-
-__all__ = ["Base"]
+__all__ = [
+    "Base",
+    "User",
+    "Project",
+    "InnovationAnalysis",
+    "ResearchGap",
+    "JourneyStage",
+    "JourneyProgress",
+    "Badge",
+    "ProjectReadiness",
+    "Pitch",
+]

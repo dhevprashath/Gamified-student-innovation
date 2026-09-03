@@ -1,77 +1,61 @@
-"""FastAPI application factory.
-
-Design decisions
-----------------
-- ``create_app()`` is a factory: tests can build fresh apps with overridden settings,
-  and the module-level ``app`` is created once for uvicorn / alembic / test clients.
-- ``lifespan`` verifies the database connection at startup and fails fast with a clear
-  log message if the database is unreachable (instead of failing on the first request).
-- Middleware order matters: CORS is registered last so it sits outermost and handles
-  preflight before request logging.
-- Documentation is disabled in production so internal endpoints are not exposed.
-- Versioning: everything is mounted under ``settings.api_v1_prefix`` (``/api/v1``),
-  guaranteeing a stable contract for the frontend and for breaking-change isolation in
-  the future (a ``v2`` router can be added without touching v1 consumers).
-"""
-
-from contextlib import asynccontextmanager
-
+import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import text
+from app.database import Base, engine
+from app.routers import (
+    projects_router,
+    innovation_router,
+    research_gap_router,
+    journey_router,
+    readiness_router,
+    pitch_router,
+)
 
-from app.api.v1.router import api_router
-from app.core.config import settings
-from app.core.exceptions import register_exception_handlers
-from app.core.logging import setup_logging
-from app.core.middleware import RequestLoggingMiddleware
-from app.db.session import engine
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("innoquest")
 
-logger = setup_logging()
+try:
+    Base.metadata.create_all(bind=engine)
+    logger.info("Database tables initialized successfully.")
+except Exception as e:
+    logger.error(f"Error initializing database tables: {e}")
 
+app = FastAPI(
+    title="Gamified Student Innovation Platform API",
+    description="Backend REST API for AI Innovation Advisor, Research Gap Finder, Gamified Journey, Project Readiness & Pitch Generator",
+    version="1.0.0",
+)
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup: verify database connectivity. In production we fail fast so a broken
-    # backend is never deployed behind a health-checked router; in development we
-    # only log a warning so the API still boots before the DB is set up.
-    try:
-        with engine.connect() as conn:
-            conn.execute(text("SELECT 1"))
-        logger.info("Database connection verified.")
-    except Exception as exc:
-        if settings.is_production:
-            logger.error("Database is unreachable at startup: %s", exc)
-            raise
-        logger.warning("Database unreachable at startup (development): %s", exc)
-    yield
-    engine.dispose()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000", "*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+app.include_router(projects_router)
+app.include_router(innovation_router)
+app.include_router(research_gap_router)
+app.include_router(journey_router)
+app.include_router(readiness_router)
+app.include_router(pitch_router)
 
-def create_app() -> FastAPI:
-    app = FastAPI(
-        title=settings.app_name,
-        version=settings.app_version,
-        docs_url="/docs" if not settings.is_production else None,
-        redoc_url=None,
-        openapi_url="/openapi.json" if not settings.is_production else None,
-        lifespan=lifespan,
-    )
+@app.get("/")
+def root():
+    return {
+        "status": "online",
+        "message": "Gamified Student Innovation Platform API is running.",
+        "endpoints": [
+            "/api/projects",
+            "/api/innovation/analyze",
+            "/api/research-gap/analyze",
+            "/api/journey/{project_id}",
+            "/api/readiness/{project_id}",
+            "/api/pitch/generate"
+        ]
+    }
 
-    # Request logging must wrap everything but CORS must be outermost for preflight.
-    app.add_middleware(RequestLoggingMiddleware)
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=settings.cors_origins,
-        allow_credentials=True,  # required for HttpOnly cookies to be stored
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-
-    register_exception_handlers(app)
-    app.include_router(api_router, prefix=settings.api_v1_prefix)
-
-    return app
-
-
-app = create_app()
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
