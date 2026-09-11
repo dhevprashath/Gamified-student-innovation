@@ -1,42 +1,82 @@
 # InnoQuest — AI-Powered Gamified Student Innovation Platform
 
-A production-ready SaaS application that guides students from a raw idea to a
-hackathon-ready / startup-ready project using **AI agents** (research, patent,
-competitor, risk, pitch) and **gamification**. Built for Smart India Hackathon (SIH)
-and final-year engineering project evaluation.
+A production-ready SaaS application that guides students from a raw idea to a pitch-ready venture using **AI analysis**, **literature gap research**, **project readiness scoring**, and **gamified incubation milestones**. Built for student innovation showcases, SIH hackathons, and final-year engineering project evaluations.
 
-## Stack
+---
+
+## 🎨 UI Redesign & Visual System
+
+The platform features a **premium human-designed visual language** built for clarity, calm focus, and modern startup aesthetic:
+
+- **Background Canvas**: `#F7F6F2` (Warm Off-White / Editorial Cream)
+- **Cards & Modals**: `#FFFFFF` (Pure White with `#E5E3DD` borders)
+- **Primary Typography**: `#171717` (Deep Charcoal)
+- **Secondary Typography**: `#6B6B65` (Muted Warm Grey)
+- **Primary Brand Accent**: `#E58A4E` (Soft Orange Primary Accent & Active Tab Pill)
+- **Primary Hover**: `#D4793D` (Button Hover State)
+- **Soft Orange Background**: `#F8E8DB` (Soft Tint for Badges, Progress Tracks & Highlights)
+- **Borders**: `#E5E3DD` (Warm Grey Card & Divider Borders)
+
+### Key UX & Motion Highlights
+- **Page Transitions**: Smooth route entry (`opacity: 0 → 1` + `translateY: 8px → 0` over 250ms).
+- **Subconscious Card Hovers**: `-2px` vertical lift, subtle border transition (`#C8C5BD`), and soft shadow elevation over 200ms.
+- **Button Micro-Interactions**: `-1px` lift, soft orange hover state, active press (`translateY(0)`), and subtle step loading spinners.
+- **Form Focus & Shake Validation**: Focus highlights input borders in `#E58A4E`. Single horizontal shake (`350ms`) on validation errors.
+- **Staggered Dashboard Sequence**: Staggered entrance sequence under 500ms total (Header → Quick Cards → Projects Grid).
+- **Circular Score Indicators**: Animated SVG circular gauges (`CircularProgress`) transitioning 0 → score over 1000ms.
+- **XP Counter Animation**: Smooth number counter (`AnimatedNumber`) for total XP accumulation.
+- **Step-by-Step AI States**: Dynamic loading sequences (*"Analyzing your innovation..."* → *"Evaluating feasibility..."* → *"Preparing recommendations..."*).
+- **Toast Notifications**: Built-in notification provider (`ToastContext`) supporting Success, Error, Warning, Info, and Achievement (+XP bonus) toasts.
+- **Skeleton Loaders**: Layout-matching skeleton loaders for AI Advisor, Research Gap, and Readiness modules.
+- **Reduced Motion**: Full compliance with `@media (prefers-reduced-motion: reduce)`.
+
+---
+
+## 🚀 Core Platform Modules
+
+| Module | Feature | Highlights |
+|---|---|---|
+| **Dashboard** | Project Workspace | Project context selector, creation modal, staggered loading sequence |
+| **Module 1 — AI Advisor** | Idea Analysis | 7-metric score breakdown, risk assessment, tech stack & MVP recommendations |
+| **Module 2 — Research Gap** | Literature Research | 4-step visual flow pipeline, unaddressed gap discovery, research questions |
+| **Module 3 — Innovation Journey** | Gamified Roadmap | 7 incubation stages, XP rewards, level progression, 7 innovation badges |
+| **Module 4 — Project Readiness** | Pitch Generator | 6-pillar weighted readiness score, 9 pitch deck cards, 2-min pitch script copy |
+
+---
+
+## 🛠️ Stack
 
 | Layer | Technology |
 |---|---|
-| Frontend | React (Vite) · Tailwind CSS v4 · shadcn/ui · React Router · Axios · TanStack Query · Zustand |
-| Backend | FastAPI · SQLAlchemy 2 · Alembic · Pydantic v2 · JWT (HttpOnly cookie) |
-| Database | SQLite sample (local dev default) · MySQL 8.0 (production) |
-| AI (Phase 6+) | Gemini API · LangGraph · Sentence Transformers · FAISS |
-| Deployment | Vercel (frontend) · Render (backend) · MySQL |
+| Frontend | React 19 · Vite 6 · Tailwind CSS v4 · Lucide React · Axios |
+| Backend | FastAPI · SQLAlchemy · Pydantic · Alembic |
+| Database | SQLite (dev default) · MySQL 8.0 (production) |
+| AI Pipeline | OpenAI / Gemini API endpoints |
 
-## Repository layout
+---
+
+## 📁 Repository layout
 
 ```
 gamified-project/
-├── frontend/           React SPA (deploy → Vercel)
-├── backend/            FastAPI service (deploy → Render)
+├── frontend/           React SPA (Vite + Tailwind v4 + Toast Context)
+├── backend/            FastAPI service (Python + SQLAlchemy)
 ├── database/           provisioning scripts + migration notes
 ├── docs/               architecture & design docs
 ├── architecture/       diagrams
 └── README.md
 ```
 
-## Quickstart — Run the project
+---
+
+## ⚡ Quickstart — Run the project
 
 > All commands are PowerShell (Windows). Run them from the repo root
 > (`C:\Users\Dhev prashath\OneDrive\Desktop\gamified-project`).
-> Full walkthrough: see [`setup.md`](setup.md).
 
-### 0. Database (one-time, sample SQLite)
+### 0. Database Setup (Sample SQLite)
 
-The backend uses a **sample SQLite database** (`backend\innoquest.db`) by default —
-no MySQL install or provisioning needed. Create it from the migrations:
+The backend uses a sample SQLite database (`backend\innoquest.db`) by default:
 
 ```powershell
 cd backend
@@ -49,8 +89,6 @@ alembic upgrade head          # creates backend\innoquest.db if missing
 ```powershell
 cd backend
 .\.venv\Scripts\activate
-copy .env.example .env        # once; already created in this workspace
-alembic upgrade head          # apply migrations
 python run.py                 # start server → http://localhost:8000/docs
 ```
 
@@ -58,51 +96,13 @@ python run.py                 # start server → http://localhost:8000/docs
 
 ```powershell
 cd frontend
-copy .env.example .env        # once; already created in this workspace
-npm install                   # once; already installed in this workspace
 npm run dev                   # start dev server → http://localhost:5173
 ```
 
-### 3. Verify it is wired together
-
-- Liveness: `http://localhost:8000/api/v1/health` → `{"success":true,"data":{"status":"ok"}}`
-- Readiness (DB): `http://localhost:8000/api/v1/health/ready`
-- UI: `http://localhost:5173` shows the **Backend connectivity** card. The badge
-  turns `Connected` when both servers are up and the DB is provisioned.
-
-The Vite dev proxy (`vite.config.ts`) forwards `/api/*` to `http://localhost:8000`, so
-the HttpOnly cookie auth flow needs no CORS setup during development.
-
-## Test & lint
+### 3. Build & Test
 
 ```powershell
-# Backend
-cd backend
-.\.venv\Scripts\pytest                      # API tests (uses the real app + DB)
-.\.venv\Scripts\ruff check app tests alembic
-
-# Frontend
+# Frontend production build verification
 cd frontend
-npm run build                               # tsc typecheck + production build
-npm run test:e2e                            # Playwright E2E browser tests
+npm run build                 # Vite build with type verification
 ```
-
-## Roadmap (phases)
-
-| Phase | Module | Status |
-|---|---|---|
-| 1 | Project setup (foundation) | ✅ Done |
-| 2 | Authentication | ⬜ |
-| 3 | Dashboard | ⬜ |
-| 4 | Idea submission | ⬜ |
-| 5 | Team & mentor | ⬜ |
-| 6 | AI validation | ⬜ |
-| 7–10 | Research / Patent / Competitor / Risk agents | ⬜ |
-| 11 | AI pitch generator | ⬜ |
-| 12 | Gamification | ⬜ |
-| 13 | Deployment | ⬜ |
-
-## Architecture
-
-See `docs/architecture.md` for the layered architecture, API contract, auth strategy,
-AI pipeline design, and recorded decisions (ADRs).
