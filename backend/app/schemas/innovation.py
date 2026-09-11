@@ -1,6 +1,8 @@
-from typing import List, Optional, Dict, Any
-from pydantic import BaseModel, Field
 from datetime import datetime
+from typing import Any
+
+from pydantic import BaseModel, Field
+
 
 class InnovationAnalyzeRequest(BaseModel):
     project_id: int = Field(..., example=1)
@@ -21,11 +23,11 @@ class InnovationAnalysisData(BaseModel):
     privacy_security_score: int
     overall_risk: str  # Low, Medium, High
     recommendation: str
-    strengths: List[str]
-    weaknesses: List[str]
-    improvements: List[str]
-    recommended_technologies: List[str]
-    mvp_suggestions: List[str]
+    strengths: list[str]
+    weaknesses: list[str]
+    improvements: list[str]
+    recommended_technologies: list[str]
+    mvp_suggestions: list[str]
 
 class InnovationResponse(BaseModel):
     id: int
@@ -33,10 +35,10 @@ class InnovationResponse(BaseModel):
     project_title: str
     problem_statement: str
     proposed_solution: str
-    target_users: Optional[str]
-    technology_domain: Optional[str]
-    expected_impact: Optional[str]
-    analysis_data: Dict[str, Any]
+    target_users: str | None
+    technology_domain: str | None
+    expected_impact: str | None
+    analysis_data: dict[str, Any]
     created_at: datetime
 
     class Config:

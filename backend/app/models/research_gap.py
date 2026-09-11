@@ -1,7 +1,10 @@
 import datetime
-from sqlalchemy import Column, Integer, String, Text, DateTime, JSON, ForeignKey
+
+from sqlalchemy import JSON, Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
+
 from app.database import Base
+
 
 class ResearchGap(Base):
     __tablename__ = "research_gaps"
@@ -12,7 +15,7 @@ class ResearchGap(Base):
     problem_area = Column(Text, nullable=False)
     existing_solution = Column(Text, nullable=True)
     target_domain = Column(String(255), nullable=True)
-    
+
     # AI gap analysis stored as JSON
     gap_data = Column(JSON, nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)

@@ -84,6 +84,7 @@ cd backend
 # Frontend
 cd frontend
 npm run build                               # tsc typecheck + production build
+npm run test:e2e                            # Playwright E2E browser tests
 ```
 
 ## Roadmap (phases)

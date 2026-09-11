@@ -1,6 +1,8 @@
-from typing import List, Dict, Any, Optional
-from pydantic import BaseModel, Field
 from datetime import datetime
+from typing import Any
+
+from pydantic import BaseModel, Field
+
 
 class PitchGenerateRequest(BaseModel):
     project_id: int = Field(..., example=1)
@@ -20,7 +22,7 @@ class PitchData(BaseModel):
 class PitchResponse(BaseModel):
     id: int
     project_id: int
-    pitch_data: Dict[str, Any]
+    pitch_data: dict[str, Any]
     created_at: datetime
 
     class Config:

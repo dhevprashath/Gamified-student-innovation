@@ -1,6 +1,9 @@
 import datetime
-from sqlalchemy import Column, Integer, String, Text, DateTime, JSON
+
+from sqlalchemy import JSON, Column, DateTime, Integer, String, Text
+
 from app.database import Base
+
 
 class AdvisorSubmission(Base):
     __tablename__ = "advisor_submissions"

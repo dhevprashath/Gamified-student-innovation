@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+
 from app.database import get_db
-from app.models.project import Project
 from app.models.innovation import InnovationAnalysis
+from app.models.project import Project
 from app.schemas.innovation import InnovationAnalyzeRequest, InnovationResponse
 from app.services.ai_service import AIService
 from app.services.journey_service import JourneyService
@@ -51,7 +52,7 @@ def get_innovation_analysis(project_id: int, db: Session = Depends(get_db)):
     analysis = db.query(InnovationAnalysis).filter(
         InnovationAnalysis.project_id == project_id
     ).order_by(InnovationAnalysis.created_at.desc()).first()
-    
+
     if not analysis:
         raise HTTPException(status_code=404, detail="No innovation analysis found for this project.")
     return analysis

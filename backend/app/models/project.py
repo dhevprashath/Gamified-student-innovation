@@ -1,7 +1,10 @@
 import datetime
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey
+
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
+
 from app.database import Base
+
 
 class Project(Base):
     __tablename__ = "projects"
@@ -11,6 +14,9 @@ class Project(Base):
     title = Column(String(255), nullable=False)
     description = Column(Text, nullable=True)
     domain = Column(String(255), nullable=True)
+    problem_statement = Column(Text, nullable=True)
+    target_users = Column(String(255), nullable=True)
+    expected_impact = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     user = relationship("User", back_populates="projects")

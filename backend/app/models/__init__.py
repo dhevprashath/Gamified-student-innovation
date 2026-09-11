@@ -1,12 +1,13 @@
 from app.database import Base
-from .user import User
-from .project import Project
-from .innovation import InnovationAnalysis
-from .research_gap import ResearchGap
-from .journey import JourneyStage, JourneyProgress
+
 from .badge import Badge
-from .readiness import ProjectReadiness
+from .innovation import InnovationAnalysis
+from .journey import JourneyProgress, JourneyStage
 from .pitch import Pitch
+from .project import Project
+from .readiness import ProjectReadiness
+from .research_gap import ResearchGap
+from .user import User
 
 __all__ = [
     "Base",

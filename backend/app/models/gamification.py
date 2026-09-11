@@ -1,6 +1,9 @@
 import datetime
-from sqlalchemy import Column, Integer, String, DateTime, JSON
+
+from sqlalchemy import JSON, Column, DateTime, Integer, String
+
 from app.database import Base
+
 
 class UserQuestProgress(Base):
     __tablename__ = "user_quest_progress"

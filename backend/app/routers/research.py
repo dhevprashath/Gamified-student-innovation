@@ -1,6 +1,7 @@
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status
+
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
+
 from app.database import get_db
 from app.models.research import ResearchGapAnalysis
 from app.schemas.research import ResearchRequest, ResearchResponse
@@ -15,7 +16,7 @@ async def analyze_gaps(payload: ResearchRequest, db: Session = Depends(get_db)):
         topic=payload.topic,
         abstract_text=payload.abstract_text or ""
     )
-    
+
     record = ResearchGapAnalysis(
         domain=payload.domain,
         topic=payload.topic,
@@ -27,6 +28,6 @@ async def analyze_gaps(payload: ResearchRequest, db: Session = Depends(get_db)):
     db.refresh(record)
     return record
 
-@router.get("/history", response_model=List[ResearchResponse])
+@router.get("/history", response_model=list[ResearchResponse])
 def get_history(limit: int = 10, db: Session = Depends(get_db)):
     return db.query(ResearchGapAnalysis).order_by(ResearchGapAnalysis.created_at.desc()).limit(limit).all()

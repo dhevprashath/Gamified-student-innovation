@@ -1,64 +1,90 @@
 import React from 'react';
-import { CheckCircle2, Circle, Zap, ArrowRight } from 'lucide-react';
+import { CheckCircle2, Zap, ArrowRight, Loader2 } from 'lucide-react';
 
 const JourneyTimeline = ({ stages = [], onCompleteStage, completingStage }) => {
+  const currentStageIndex = stages.findIndex(s => !s.is_completed);
+
   return (
     <div className="relative space-y-6">
       {/* Visual Timeline Line */}
-      <div className="hidden md:block absolute left-[28px] top-6 bottom-6 w-0.5 bg-slate-700/60 -z-0" />
+      <div className="hidden md:block absolute left-[28px] top-6 bottom-6 w-0.5 bg-[#E5E3DD] -z-0" />
 
-      <div className="grid gap-4">
+      <div className="grid gap-3.5">
         {stages.map((stage, idx) => {
           const isDone = stage.is_completed;
+          const isCurrent = idx === currentStageIndex || (currentStageIndex === -1 && idx === stages.length - 1);
           const isPending = completingStage === stage.stage_name;
 
           return (
-            <div 
+            <div
               key={stage.stage_name}
-              className={`relative z-10 flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl border transition-all ${
-                isDone 
-                  ? 'bg-slate-900/90 border-emerald-800/60 shadow-md' 
-                  : 'bg-slate-900/60 border-slate-700/80 hover:border-amber-500/40'
+              className={`relative z-10 flex flex-col md:flex-row md:items-center justify-between p-4 rounded-2xl border transition-all card-hover-effect ${
+                isDone
+                  ? 'bg-white border-[#E58A4E]/40 shadow-xs'
+                  : isCurrent
+                  ? 'bg-white border-[#E58A4E] ring-2 ring-[#E58A4E]/20 shadow-sm'
+                  : 'bg-[#F7F6F2] border-[#E5E3DD]'
               }`}
             >
               <div className="flex items-center space-x-4">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${
-                  isDone 
-                    ? 'bg-emerald-950 text-emerald-300 border border-emerald-600' 
-                    : 'bg-slate-800 text-slate-400 border border-slate-700'
-                }`}>
-                  {isDone ? <CheckCircle2 className="w-5 h-5 text-emerald-400" /> : (idx + 1)}
+                <div
+                  className={`w-9 h-9 rounded-xl flex items-center justify-center font-extrabold text-xs shrink-0 transition-transform ${
+                    isDone
+                      ? 'bg-[#F8E8DB] text-[#E58A4E] border border-[#E58A4E]/40'
+                      : isCurrent
+                      ? 'bg-[#F8E8DB] text-[#E58A4E] border border-[#E58A4E] animate-subtle-pulse'
+                      : 'bg-[#E5E3DD] text-[#6B6B65]'
+                  }`}
+                >
+                  {isDone ? <CheckCircle2 className="w-5 h-5 text-[#E58A4E]" /> : idx + 1}
                 </div>
 
                 <div>
                   <div className="flex items-center space-x-2">
-                    <h4 className={`font-bold text-sm ${isDone ? 'text-emerald-300' : 'text-white'}`}>
+                    <h4 className={`font-bold text-sm ${isDone ? 'text-[#E58A4E]' : 'text-[#171717]'}`}>
                       {stage.stage_name} Stage
                     </h4>
-                    <span className="text-[10px] font-semibold text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800/50 flex items-center space-x-0.5">
-                      <Zap className="w-2.5 h-2.5" />
+                    {isCurrent && !isDone && (
+                      <span className="text-[10px] font-bold text-[#E58A4E] bg-[#F8E8DB] px-2 py-0.5 rounded-full border border-[#E58A4E]/30 uppercase tracking-wider">
+                        Current Milestone
+                      </span>
+                    )}
+                    <span className="text-[10px] font-bold text-[#E58A4E] bg-[#F8E8DB] px-2 py-0.5 rounded-full flex items-center space-x-0.5">
+                      <Zap className="w-2.5 h-2.5 text-[#E58A4E]" />
                       <span>+{stage.xp_reward} XP</span>
                     </span>
                   </div>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    {isDone ? `Completed on ${new Date(stage.completed_at).toLocaleDateString()}` : `Complete stage milestone to unlock XP & badges.`}
+                  <p className="text-xs text-[#6B6B65] mt-0.5">
+                    {isDone
+                      ? `Completed on ${new Date(stage.completed_at).toLocaleDateString()}`
+                      : `Advance project milestones to earn XP & unlock innovation badges.`}
                   </p>
                 </div>
               </div>
 
               <div className="mt-3 md:mt-0 flex items-center space-x-3 self-end md:self-auto">
                 {isDone ? (
-                  <span className="text-xs font-semibold text-emerald-400 bg-emerald-950 px-3 py-1 rounded-lg border border-emerald-800">
-                    Completed ✓
+                  <span className="text-xs font-bold text-[#E58A4E] bg-[#F8E8DB] px-3 py-1.5 rounded-xl border border-[#E58A4E]/30 flex items-center space-x-1">
+                    <span>Completed</span>
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#E58A4E]" />
                   </span>
                 ) : (
                   <button
-                    onClick={() => onCompleteStage(stage.stage_name)}
+                    onClick={() => onCompleteStage(stage.stage_name, stage.xp_reward)}
                     disabled={isPending}
-                    className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold shadow transition-all flex items-center space-x-1.5 disabled:opacity-50"
+                    className="px-4 py-2 bg-[#E58A4E] hover:bg-[#D4793D] text-white rounded-xl text-xs font-semibold btn-primary-effect shadow-xs flex items-center space-x-1.5 disabled:opacity-50"
                   >
-                    <span>{isPending ? 'Updating...' : 'Mark Completed'}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    {isPending ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Updating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Mark Complete</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </>
+                    )}
                   </button>
                 )}
               </div>

@@ -1,7 +1,8 @@
-import os
 import json
+import os
+from typing import Any
+
 import httpx
-from typing import Dict, Any
 
 AI_API_KEY = os.getenv("AI_API_KEY") or os.getenv("LLM_API_KEY") or os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY")
 AI_MODEL = os.getenv("AI_MODEL", "gemini-2.5-flash")
@@ -16,7 +17,7 @@ class AIService:
         users: str,
         domain: str,
         impact: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         prompt = f"""You are an expert AI Innovation Advisor. Analyze this student innovation idea:
 Project Title: {title}
 Problem Statement: {problem}
@@ -89,7 +90,7 @@ Note for overall_risk: MUST be one of "Low", "Medium", or "High".
         problem: str,
         solution: str,
         domain: str
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         prompt = f"""You are an AI Academic Research Gap Finder. Analyze:
 Research Topic: {topic}
 Problem Area: {problem}
@@ -143,9 +144,9 @@ You MUST return a valid JSON object with the exact keys:
         project_title: str,
         description: str,
         domain: str,
-        innovation_data: Dict[str, Any] = None,
-        gap_data: Dict[str, Any] = None
-    ) -> Dict[str, Any]:
+        innovation_data: dict[str, Any] = None,
+        gap_data: dict[str, Any] = None
+    ) -> dict[str, Any]:
         prompt = f"""You are an AI Pitch Specialist. Generate a comprehensive startup pitch deck script for:
 Project Title: {project_title}
 Description: {description}
@@ -184,7 +185,7 @@ You MUST return a valid JSON object with the exact keys:
         }
 
     @staticmethod
-    async def _call_llm_json(prompt: str) -> Dict[str, Any]:
+    async def _call_llm_json(prompt: str) -> dict[str, Any]:
         if not AI_API_KEY:
             return None
         try:

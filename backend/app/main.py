@@ -1,14 +1,16 @@
 import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.database import Base, engine
 from app.routers import (
-    projects_router,
     innovation_router,
-    research_gap_router,
     journey_router,
-    readiness_router,
     pitch_router,
+    projects_router,
+    readiness_router,
+    research_gap_router,
 )
 
 logging.basicConfig(level=logging.INFO)

@@ -53,11 +53,26 @@ npm run dev                   # start dev server -> http://localhost:5173
 The Vite dev proxy (`vite.config.ts`) forwards `/api/*` to `http://localhost:8000`, so
 the HttpOnly cookie auth flow needs no CORS setup during development.
 
+## 4. Playwright End-to-End (E2E) Browser Testing
 
-cd backend
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+Make sure both backend (`http://localhost:8000`) and frontend (`http://localhost:5173`) servers are up and running before executing E2E tests:
 
+```powershell
 cd frontend
-npm install
-npm run dev
+
+# Install Playwright browser binaries (one-time setup)
+npx playwright install chromium
+
+# Run Playwright E2E tests headlessly
+npm run test:e2e
+
+# Run Playwright E2E tests in a visible browser (headed mode)
+npm run test:e2e:headed
+
+# Debug Playwright E2E tests using Playwright Inspector
+npm run test:e2e:debug
+
+# View HTML Test Report
+npx playwright show-report
+```
+

@@ -1,7 +1,10 @@
 import datetime
-from sqlalchemy import Column, Integer, DateTime, JSON, ForeignKey
+
+from sqlalchemy import JSON, Column, DateTime, ForeignKey, Integer
 from sqlalchemy.orm import relationship
+
 from app.database import Base
+
 
 class Pitch(Base):
     __tablename__ = "pitches"

@@ -1,8 +1,10 @@
 import datetime
-from typing import Dict, Any, List
+from typing import Any
+
 from sqlalchemy.orm import Session
-from app.models.journey import JourneyStage, JourneyProgress
+
 from app.models.badge import Badge
+from app.models.journey import JourneyProgress, JourneyStage
 
 STAGES_CONFIG = [
     {"name": "Idea", "xp": 100, "badge": "💡 Idea Starter", "icon": "💡"},
@@ -17,7 +19,7 @@ STAGES_CONFIG = [
 class JourneyService:
 
     @staticmethod
-    def get_or_create_journey(project_id: int, db: Session) -> Dict[str, Any]:
+    def get_or_create_journey(project_id: int, db: Session) -> dict[str, Any]:
         # Ensure stages exist
         existing_stages = db.query(JourneyStage).filter(JourneyStage.project_id == project_id).all()
         existing_names = {s.stage_name: s for s in existing_stages}
@@ -52,7 +54,7 @@ class JourneyService:
         return JourneyService._build_journey_payload(project_id, db)
 
     @staticmethod
-    def complete_stage(project_id: int, stage_name: str, db: Session) -> Dict[str, Any]:
+    def complete_stage(project_id: int, stage_name: str, db: Session) -> dict[str, Any]:
         # Verify stage config
         stage_cfg = next((c for c in STAGES_CONFIG if c["name"].lower() == stage_name.lower()), None)
         if not stage_cfg:
@@ -68,7 +70,8 @@ class JourneyService:
 
         if stage_obj and not stage_obj.is_completed:
             stage_obj.is_completed = True
-            stage_obj.completed_at = datetime.datetime.utcnow()
+            stage_obj.completed_at = datetime.datetime.now(datetime.timezone.utc)
+            db.flush()
 
             # Award XP & update progress
             progress = db.query(JourneyProgress).filter(JourneyProgress.project_id == project_id).first()
@@ -80,7 +83,7 @@ class JourneyService:
             # Count completed stages
             completed_stages = db.query(JourneyStage).filter(
                 JourneyStage.project_id == project_id,
-                JourneyStage.is_completed == True
+                JourneyStage.is_completed.is_(True)
             ).all()
             progress.completed_count = len(completed_stages)
 
@@ -112,7 +115,7 @@ class JourneyService:
         return JourneyService._build_journey_payload(project_id, db)
 
     @staticmethod
-    def _build_journey_payload(project_id: int, db: Session) -> Dict[str, Any]:
+    def _build_journey_payload(project_id: int, db: Session) -> dict[str, Any]:
         progress = db.query(JourneyProgress).filter(JourneyProgress.project_id == project_id).first()
         stages = db.query(JourneyStage).filter(JourneyStage.project_id == project_id).all()
         badges = db.query(Badge).filter(Badge.project_id == project_id).all()

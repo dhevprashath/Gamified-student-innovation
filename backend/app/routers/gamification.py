@@ -1,9 +1,9 @@
-from typing import List, Dict, Any
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
 from app.database import get_db
 from app.models.gamification import UserQuestProgress
-from app.schemas.gamification import QuestActionRequest, ProgressResponse
+from app.schemas.gamification import ProgressResponse, QuestActionRequest
 
 router = APIRouter(prefix="/api/gamification", tags=["Gamified Innovation Journey"])
 
@@ -78,7 +78,7 @@ def get_progress(user_id: str = "student_innovator", db: Session = Depends(get_d
 def complete_quest(payload: QuestActionRequest, db: Session = Depends(get_db)):
     user_id = payload.user_id or "student_innovator"
     progress = get_or_create_user_progress(user_id, db)
-    
+
     current_completed = list(progress.completed_quests or [])
     if payload.quest_id not in current_completed:
         current_completed.append(payload.quest_id)

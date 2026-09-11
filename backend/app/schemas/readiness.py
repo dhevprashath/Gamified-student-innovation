@@ -1,5 +1,5 @@
-from typing import List, Dict, Any, Optional
 from pydantic import BaseModel
+
 
 class ReadinessResponse(BaseModel):
     project_id: int
@@ -10,9 +10,9 @@ class ReadinessResponse(BaseModel):
     prototype_score: int
     testing_score: int
     pitch_score: int
-    completed_areas: List[str]
-    missing_areas: List[str]
-    recommendations: List[str]
+    completed_areas: list[str]
+    missing_areas: list[str]
+    recommendations: list[str]
 
     class Config:
         from_attributes = True

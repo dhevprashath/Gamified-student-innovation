@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+
 from app.database import get_db
-from app.models.project import Project
 from app.models.pitch import Pitch
+from app.models.project import Project
 from app.schemas.pitch import PitchGenerateRequest, PitchResponse
 from app.services.ai_service import AIService
 from app.services.journey_service import JourneyService

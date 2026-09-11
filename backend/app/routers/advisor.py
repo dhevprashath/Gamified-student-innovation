@@ -1,6 +1,7 @@
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status
+
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
+
 from app.database import get_db
 from app.models.advisor import AdvisorSubmission
 from app.schemas.advisor import AdvisorRequest, AdvisorResponse
@@ -15,7 +16,7 @@ async def analyze_idea(payload: AdvisorRequest, db: Session = Depends(get_db)):
         description=payload.description,
         target_market=payload.target_market or ""
     )
-    
+
     submission = AdvisorSubmission(
         title=payload.title,
         description=payload.description,
@@ -27,6 +28,6 @@ async def analyze_idea(payload: AdvisorRequest, db: Session = Depends(get_db)):
     db.refresh(submission)
     return submission
 
-@router.get("/history", response_model=List[AdvisorResponse])
+@router.get("/history", response_model=list[AdvisorResponse])
 def get_history(limit: int = 10, db: Session = Depends(get_db)):
     return db.query(AdvisorSubmission).order_by(AdvisorSubmission.created_at.desc()).limit(limit).all()

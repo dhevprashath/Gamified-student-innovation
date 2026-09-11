@@ -1,5 +1,7 @@
-from typing import Dict, Any, List
+from typing import Any
+
 from sqlalchemy.orm import Session
+
 from app.models.journey import JourneyStage
 from app.models.readiness import ProjectReadiness
 
@@ -24,7 +26,7 @@ RECOMMENDATIONS_MAP = {
 class ReadinessService:
 
     @staticmethod
-    def calculate_readiness(project_id: int, db: Session) -> Dict[str, Any]:
+    def calculate_readiness(project_id: int, db: Session) -> dict[str, Any]:
         stages = db.query(JourneyStage).filter(JourneyStage.project_id == project_id).all()
         stage_status = {s.stage_name: s.is_completed for s in stages}
 
