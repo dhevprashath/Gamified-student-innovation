@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import InnovationAdvisor from './pages/InnovationAdvisor';
@@ -7,6 +8,13 @@ import InnovationJourney from './pages/InnovationJourney';
 import ProjectReadiness from './pages/ProjectReadiness';
 import { getProjects, createProject } from './services/api';
 import { ToastProvider } from './context/ToastContext';
+
+const pageTransition = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+  exit:    { opacity: 0, y: -6 },
+  transition: { duration: 0.22, ease: [0.16, 1, 0.3, 1] },
+};
 
 const AppContent = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -44,7 +52,7 @@ const AppContent = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F6F2] text-[#171717] flex flex-col font-sans selection:bg-[#E58A4E] selection:text-white transition-colors">
+    <div className="min-h-screen bg-bg text-text flex flex-col font-sans selection:bg-primary-soft selection:text-primary-deep transition-colors">
       
       {/* Navigation Header */}
       <Navbar
@@ -58,50 +66,60 @@ const AppContent = () => {
 
       {/* Main Page Area with Route Page Transitions */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div key={activeTab} className="animate-page-enter">
+        <AnimatePresence mode="wait">
           {activeTab === 'dashboard' && (
-            <Dashboard
-              projects={projects}
-              activeProject={activeProject}
-              onSelectProject={setActiveProject}
-              onCreateProject={handleCreateProject}
-              setActiveTab={setActiveTab}
-            />
+            <motion.div key="dashboard" {...pageTransition}>
+              <Dashboard
+                projects={projects}
+                activeProject={activeProject}
+                onSelectProject={setActiveProject}
+                onCreateProject={handleCreateProject}
+                setActiveTab={setActiveTab}
+              />
+            </motion.div>
           )}
 
           {activeTab === 'advisor' && (
-            <InnovationAdvisor
-              activeProject={activeProject}
-              onRefreshJourney={fetchProjects}
-            />
+            <motion.div key="advisor" {...pageTransition}>
+              <InnovationAdvisor
+                activeProject={activeProject}
+                onRefreshJourney={fetchProjects}
+              />
+            </motion.div>
           )}
 
           {activeTab === 'research' && (
-            <ResearchGap
-              activeProject={activeProject}
-              onRefreshJourney={fetchProjects}
-            />
+            <motion.div key="research" {...pageTransition}>
+              <ResearchGap
+                activeProject={activeProject}
+                onRefreshJourney={fetchProjects}
+              />
+            </motion.div>
           )}
 
           {activeTab === 'journey' && (
-            <InnovationJourney
-              activeProject={activeProject}
-            />
+            <motion.div key="journey" {...pageTransition}>
+              <InnovationJourney
+                activeProject={activeProject}
+              />
+            </motion.div>
           )}
 
           {activeTab === 'readiness' && (
-            <ProjectReadiness
-              activeProject={activeProject}
-              onRefreshJourney={fetchProjects}
-            />
+            <motion.div key="readiness" {...pageTransition}>
+              <ProjectReadiness
+                activeProject={activeProject}
+                onRefreshJourney={fetchProjects}
+              />
+            </motion.div>
           )}
-        </div>
+        </AnimatePresence>
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-[#E5E3DD] py-6 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 text-center text-xs text-[#6B6B65]">
-          <p>Gamified Student Innovation Platform — Handcrafted Premium Visual Experience</p>
+      <footer className="bg-surface border-t border-border py-6 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 text-center text-xs text-muted">
+          <p>InnoQuest · Sunny Study Edition · Gamified Innovation Platform</p>
         </div>
       </footer>
 

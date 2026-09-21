@@ -114,13 +114,13 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
     <div className="space-y-8 animate-page-enter">
       
       {/* Header Banner */}
-      <div className="bg-white border border-[#E5E3DD] rounded-3xl p-6 shadow-xs">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#F8E8DB] text-[#E58A4E] text-xs font-bold mb-2">
+      <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary-soft text-primary-deep text-xs font-bold mb-2">
           <Lightbulb className="w-3.5 h-3.5" />
           <span>Module 1 — AI Innovation Advisor</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black text-[#171717]">AI Innovation Advisor</h1>
-        <p className="text-[#6B6B65] text-sm mt-1">
+        <h1 className="text-2xl sm:text-3xl font-black text-text">AI Innovation Advisor</h1>
+        <p className="text-muted text-sm mt-1">
           Evaluate your student innovation across 7 core metrics, assess risks, and receive tailored technical and MVP recommendations.
         </p>
       </div>
@@ -128,86 +128,86 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
       <div className="grid lg:grid-cols-12 gap-8">
         
         {/* Form Column */}
-        <div className={`lg:col-span-5 bg-white border border-[#E5E3DD] rounded-3xl p-6 shadow-xs h-fit ${isShaking ? 'animate-shake' : ''}`}>
-          <h2 className="text-lg font-bold text-[#171717] mb-4 flex items-center space-x-2">
-            <Sparkles className="w-5 h-5 text-[#E58A4E]" />
+        <div className={`lg:col-span-5 bg-surface border border-border rounded-3xl p-6 shadow-xs h-fit ${isShaking ? 'animate-shake' : ''}`}>
+          <h2 className="text-lg font-bold text-text mb-4 flex items-center space-x-2">
+            <Sparkles className="w-5 h-5 text-primary" />
             <span>Enter Innovation Details</span>
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold text-[#171717] mb-1">Project Title *</label>
+              <label className="block text-xs font-bold text-text mb-1">Project Title *</label>
               <input
                 type="text"
                 required
                 placeholder="e.g. IoT Smart Waste Tracker"
                 value={formData.project_title}
                 onChange={(e) => { setFormData({ ...formData, project_title: e.target.value }); setError(null); }}
-                className="w-full bg-[#F7F6F2] border border-[#E5E3DD] focus:border-[#E58A4E] rounded-xl px-3.5 py-2.5 text-xs text-[#171717] placeholder-[#6B6B65] focus:outline-none transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#171717] mb-1">Problem Statement *</label>
+              <label className="block text-xs font-bold text-text mb-1">Problem Statement *</label>
               <textarea
                 required
                 rows={3}
                 placeholder="Describe the exact problem your target users encounter..."
                 value={formData.problem_statement}
                 onChange={(e) => { setFormData({ ...formData, problem_statement: e.target.value }); setError(null); }}
-                className="w-full bg-[#F7F6F2] border border-[#E5E3DD] focus:border-[#E58A4E] rounded-xl px-3.5 py-2.5 text-xs text-[#171717] placeholder-[#6B6B65] focus:outline-none transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#171717] mb-1">Proposed Solution *</label>
+              <label className="block text-xs font-bold text-text mb-1">Proposed Solution *</label>
               <textarea
                 required
                 rows={3}
                 placeholder="Describe how your technology solves this problem..."
                 value={formData.proposed_solution}
                 onChange={(e) => { setFormData({ ...formData, proposed_solution: e.target.value }); setError(null); }}
-                className="w-full bg-[#F7F6F2] border border-[#E5E3DD] focus:border-[#E58A4E] rounded-xl px-3.5 py-2.5 text-xs text-[#171717] placeholder-[#6B6B65] focus:outline-none transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#171717] mb-1">Target Users</label>
+              <label className="block text-xs font-bold text-text mb-1">Target Users</label>
               <input
                 type="text"
                 placeholder="e.g. Municipalities, Campus Operations"
                 value={formData.target_users}
                 onChange={(e) => setFormData({ ...formData, target_users: e.target.value })}
-                className="w-full bg-[#F7F6F2] border border-[#E5E3DD] focus:border-[#E58A4E] rounded-xl px-3.5 py-2.5 text-xs text-[#171717] placeholder-[#6B6B65] focus:outline-none transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-bold text-[#171717] mb-1">Technology / Domain</label>
+                <label className="block text-xs font-bold text-text mb-1">Technology / Domain</label>
                 <input
                   type="text"
                   placeholder="e.g. IoT, React, AI"
                   value={formData.technology_domain}
                   onChange={(e) => setFormData({ ...formData, technology_domain: e.target.value })}
-                  className="w-full bg-[#F7F6F2] border border-[#E5E3DD] focus:border-[#E58A4E] rounded-xl px-3.5 py-2.5 text-xs text-[#171717] placeholder-[#6B6B65] focus:outline-none transition-colors"
+                  className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#171717] mb-1">Expected Impact</label>
+                <label className="block text-xs font-bold text-text mb-1">Expected Impact</label>
                 <input
                   type="text"
                   placeholder="e.g. 30% fuel savings"
                   value={formData.expected_impact}
                   onChange={(e) => setFormData({ ...formData, expected_impact: e.target.value })}
-                  className="w-full bg-[#F7F6F2] border border-[#E5E3DD] focus:border-[#E58A4E] rounded-xl px-3.5 py-2.5 text-xs text-[#171717] placeholder-[#6B6B65] focus:outline-none transition-colors"
+                  className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
                 />
               </div>
             </div>
 
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl text-xs font-medium animate-fade-in">
+              <div className="p-3 bg-danger/10 border border-danger/30 text-danger rounded-xl text-xs font-medium animate-fade-in">
                 {error}
               </div>
             )}
@@ -215,11 +215,11 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-[#E58A4E] hover:bg-[#D4793D] text-white font-bold rounded-xl text-xs sm:text-sm btn-primary-effect shadow-xs flex items-center justify-center space-x-2 disabled:opacity-50 transition-all"
+              className="w-full py-3 px-4 bg-primary hover:opacity-90 text-on-primary font-bold rounded-xl text-xs sm:text-sm btn-primary-effect shadow-xs flex items-center justify-center space-x-2 disabled:opacity-50 transition-all cursor-pointer"
             >
               {loading ? (
                 <div className="flex items-center space-x-2">
-                  <Loader2 className="w-4 h-4 animate-spin text-white" />
+                  <Loader2 className="w-4 h-4 animate-spin text-on-primary" />
                   <span className="animate-fade-in key={stepIndex}">{AI_STEPS[stepIndex]}</span>
                 </div>
               ) : (
@@ -238,10 +238,10 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
           {loading || fetching ? (
             <AIAdvisorSkeleton />
           ) : !data ? (
-            <div className="bg-white border border-dashed border-[#E5E3DD] rounded-3xl p-12 text-center text-[#6B6B65]">
-              <Lightbulb className="w-12 h-12 text-[#6B6B65] mx-auto mb-3" />
-              <h3 className="text-base font-bold text-[#171717]">No Innovation Analysis Found</h3>
-              <p className="text-xs text-[#6B6B65] mt-1 max-w-sm mx-auto">
+            <div className="bg-surface border border-dashed border-border rounded-3xl p-12 text-center text-muted">
+              <Lightbulb className="w-12 h-12 text-muted mx-auto mb-3" />
+              <h3 className="text-base font-bold text-text">No Innovation Analysis Found</h3>
+              <p className="text-xs text-muted mt-1 max-w-sm mx-auto">
                 Fill in the innovation details on the left and click "Analyze Idea" to generate your AI score breakdown.
               </p>
             </div>
@@ -249,12 +249,12 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
             <div className="space-y-6 animate-page-enter">
               
               {/* Overall Score & Risk Badge Header */}
-              <div className="bg-white border border-[#E5E3DD] rounded-3xl p-6 shadow-xs">
+              <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
-                    <span className="text-[10px] font-extrabold text-[#E58A4E] uppercase tracking-widest">Analysis Results</span>
-                    <h2 className="text-xl font-black text-[#171717] mt-0.5">{analysisRecord.project_title}</h2>
-                    <p className="text-xs text-[#6B6B65] mt-1">Evaluated on {new Date(analysisRecord.created_at).toLocaleDateString()}</p>
+                    <span className="text-[10px] font-extrabold text-primary-deep uppercase tracking-widest">Analysis Results</span>
+                    <h2 className="text-xl font-black text-text mt-0.5">{analysisRecord.project_title}</h2>
+                    <p className="text-xs text-muted mt-1">Evaluated on {new Date(analysisRecord.created_at).toLocaleDateString()}</p>
                   </div>
 
                   <div className="flex items-center space-x-4">
@@ -265,28 +265,28 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                       size={80}
                       strokeWidth={7}
                       label="Innovation Score"
-                      color="orange"
+                      color="primary"
                     />
                   </div>
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-[#E5E3DD] text-xs text-[#171717] leading-relaxed bg-[#F7F6F2] p-4 rounded-xl border border-[#E5E3DD]">
-                  <span className="font-bold text-[#E58A4E]">AI Recommendation: </span>
+                <div className="mt-4 pt-4 border-t border-border text-xs text-text leading-relaxed bg-bg p-4 rounded-xl border border-border">
+                  <span className="font-bold text-primary-deep">AI Recommendation: </span>
                   {data.recommendation}
                 </div>
               </div>
 
               {/* 6 Sub-Scores Grid */}
-              <div className="bg-white border border-[#E5E3DD] rounded-3xl p-6 shadow-xs space-y-4">
-                <h3 className="text-xs font-extrabold text-[#171717] uppercase tracking-wider">Detailed Metric Breakdown</h3>
+              <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs space-y-4">
+                <h3 className="text-xs font-extrabold text-text uppercase tracking-wider">Detailed Metric Breakdown</h3>
 
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <ProgressBar label="Problem Clarity" value={data.problem_clarity} color="orange" />
-                  <ProgressBar label="Technical Feasibility" value={data.technical_feasibility} color="orange" />
-                  <ProgressBar label="Market Potential" value={data.market_potential} color="orange" />
-                  <ProgressBar label="Financial Feasibility" value={data.financial_feasibility} color="orange" />
-                  <ProgressBar label="Ethical Score" value={data.ethical_score} color="orange" />
-                  <ProgressBar label="Privacy & Security Score" value={data.privacy_security_score} color="orange" />
+                  <ProgressBar label="Problem Clarity" value={data.problem_clarity} color="primary" />
+                  <ProgressBar label="Technical Feasibility" value={data.technical_feasibility} color="primary" />
+                  <ProgressBar label="Market Potential" value={data.market_potential} color="primary" />
+                  <ProgressBar label="Financial Feasibility" value={data.financial_feasibility} color="primary" />
+                  <ProgressBar label="Ethical Score" value={data.ethical_score} color="primary" />
+                  <ProgressBar label="Privacy & Security Score" value={data.privacy_security_score} color="primary" />
                 </div>
               </div>
 
@@ -294,15 +294,15 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
               <div className="grid sm:grid-cols-2 gap-4">
                 
                 {/* Strengths */}
-                <div className="bg-white border border-[#E58A4E]/30 rounded-3xl p-5 shadow-xs">
-                  <h3 className="text-xs font-bold text-[#E58A4E] flex items-center space-x-2 mb-3">
+                <div className="bg-surface border border-primary/30 rounded-3xl p-5 shadow-xs">
+                  <h3 className="text-xs font-bold text-primary-deep flex items-center space-x-2 mb-3">
                     <CheckCircle2 className="w-4 h-4" />
                     <span>Identified Strengths</span>
                   </h3>
-                  <ul className="space-y-2 text-xs text-[#171717]">
+                  <ul className="space-y-2 text-xs text-text">
                     {data.strengths?.map((str, idx) => (
                       <li key={idx} className="flex items-start space-x-2">
-                        <span className="text-[#E58A4E] font-bold">•</span>
+                        <span className="text-primary-deep font-bold">•</span>
                         <span>{str}</span>
                       </li>
                     ))}
@@ -310,15 +310,15 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                 </div>
 
                 {/* Weaknesses */}
-                <div className="bg-white border border-[#E58A4E]/30 rounded-3xl p-5 shadow-xs">
-                  <h3 className="text-xs font-bold text-[#E58A4E] flex items-center space-x-2 mb-3">
+                <div className="bg-surface border border-primary/30 rounded-3xl p-5 shadow-xs">
+                  <h3 className="text-xs font-bold text-primary-deep flex items-center space-x-2 mb-3">
                     <AlertTriangle className="w-4 h-4" />
                     <span>Identified Weaknesses & Risks</span>
                   </h3>
-                  <ul className="space-y-2 text-xs text-[#171717]">
+                  <ul className="space-y-2 text-xs text-text">
                     {data.weaknesses?.map((wk, idx) => (
                       <li key={idx} className="flex items-start space-x-2">
-                        <span className="text-[#E58A4E] font-bold">•</span>
+                        <span className="text-primary-deep font-bold">•</span>
                         <span>{wk}</span>
                       </li>
                     ))}
@@ -328,16 +328,16 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
               </div>
 
               {/* Improvements & Tech Stack */}
-              <div className="bg-white border border-[#E5E3DD] rounded-3xl p-6 shadow-xs space-y-5">
+              <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs space-y-5">
                 <div>
-                  <h3 className="text-xs font-bold text-[#E58A4E] flex items-center space-x-2 mb-3">
+                  <h3 className="text-xs font-bold text-primary-deep flex items-center space-x-2 mb-3">
                     <Compass className="w-4 h-4" />
                     <span>Improvement Suggestions</span>
                   </h3>
                   <div className="space-y-2">
                     {data.improvements?.map((imp, idx) => (
-                      <div key={idx} className="flex items-start space-x-3 bg-[#F7F6F2] p-3 rounded-xl border border-[#E5E3DD] text-xs text-[#171717]">
-                        <span className="w-5 h-5 rounded-full bg-[#F8E8DB] text-[#E58A4E] text-xs font-bold flex items-center justify-center shrink-0">
+                      <div key={idx} className="flex items-start space-x-3 bg-bg p-3 rounded-xl border border-border text-xs text-text">
+                        <span className="w-5 h-5 rounded-full bg-primary-soft text-primary-deep text-xs font-bold flex items-center justify-center shrink-0">
                           {idx + 1}
                         </span>
                         <span>{imp}</span>
@@ -346,15 +346,15 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-[#E5E3DD] grid sm:grid-cols-2 gap-4">
+                <div className="pt-4 border-t border-border grid sm:grid-cols-2 gap-4">
                   <div>
-                    <h3 className="text-xs font-bold text-[#171717] flex items-center space-x-2 mb-2">
-                      <Cpu className="w-4 h-4 text-[#E58A4E]" />
+                    <h3 className="text-xs font-bold text-text flex items-center space-x-2 mb-2">
+                      <Cpu className="w-4 h-4 text-primary" />
                       <span>Recommended Tech Stack</span>
                     </h3>
-                    <ul className="space-y-1.5 text-xs text-[#171717]">
+                    <ul className="space-y-1.5 text-xs text-text">
                       {data.recommended_technologies?.map((tech, idx) => (
-                        <li key={idx} className="bg-[#F7F6F2] px-3 py-1.5 rounded-lg border border-[#E5E3DD] text-xs font-medium">
+                        <li key={idx} className="bg-bg px-3 py-1.5 rounded-lg border border-border text-xs font-medium">
                           {tech}
                         </li>
                       ))}
@@ -362,13 +362,13 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                   </div>
 
                   <div>
-                    <h3 className="text-xs font-bold text-[#171717] flex items-center space-x-2 mb-2">
-                      <Rocket className="w-4 h-4 text-[#E58A4E]" />
+                    <h3 className="text-xs font-bold text-text flex items-center space-x-2 mb-2">
+                      <Rocket className="w-4 h-4 text-primary" />
                       <span>MVP Feature Suggestions</span>
                     </h3>
-                    <ul className="space-y-1.5 text-xs text-[#171717]">
+                    <ul className="space-y-1.5 text-xs text-text">
                       {data.mvp_suggestions?.map((mvp, idx) => (
-                        <li key={idx} className="bg-[#F7F6F2] px-3 py-1.5 rounded-lg border border-[#E5E3DD] text-xs font-medium">
+                        <li key={idx} className="bg-bg px-3 py-1.5 rounded-lg border border-border text-xs font-medium">
                           {mvp}
                         </li>
                       ))}

@@ -5,8 +5,8 @@ const RiskBadge = ({ risk = 'Low' }) => {
 
   if (normalizedRisk === 'high' || normalizedRisk === '🔴 high') {
     return (
-      <span className="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-700 text-xs font-bold shadow-xs">
-        <span className="w-2 h-2 rounded-full bg-red-600" />
+      <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-bold shadow-xs">
+        <span className="w-2 h-2 rounded-full bg-red-500" />
         <span>High Risk</span>
       </span>
     );
@@ -14,16 +14,16 @@ const RiskBadge = ({ risk = 'Low' }) => {
 
   if (normalizedRisk === 'medium' || normalizedRisk === '🟡 medium') {
     return (
-      <span className="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-[#F8E8DB] border border-[#E58A4E]/30 text-[#E58A4E] text-xs font-bold shadow-xs">
-        <span className="w-2 h-2 rounded-full bg-[#E58A4E]" />
+      <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold shadow-xs">
+        <span className="w-2 h-2 rounded-full bg-amber-500" />
         <span>Medium Risk</span>
       </span>
     );
   }
 
   return (
-    <span className="inline-flex items-center space-x-1 px-3 py-1 rounded-full bg-[#F8E8DB] border border-[#E58A4E]/20 text-[#E58A4E] text-xs font-bold shadow-xs">
-      <span className="w-2 h-2 rounded-full bg-[#E58A4E]" />
+    <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold shadow-xs">
+      <span className="w-2 h-2 rounded-full bg-emerald-500" />
       <span>Low Risk</span>
     </span>
   );

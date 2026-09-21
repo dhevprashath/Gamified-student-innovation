@@ -7,7 +7,7 @@ const CircularProgress = ({
   size = 96,
   strokeWidth = 8,
   label = 'Score',
-  color = 'orange', // default 'orange'
+  color = 'primary',
   sublabel = '',
 }) => {
   const [animatedOffset, setAnimatedOffset] = useState(0);
@@ -24,8 +24,9 @@ const CircularProgress = ({
     return () => clearTimeout(timer);
   }, [score, maxScore, circumference, targetPercentage]);
 
-  const strokeColor = '#E58A4E';
-  const trackColor = '#F8E8DB';
+  const isReward = color === 'reward' || color === 'amber';
+  const strokeColor = isReward ? 'var(--reward)' : 'var(--primary)';
+  const trackColor = isReward ? 'var(--reward-soft)' : 'var(--primary-soft)';
 
   return (
     <div className="flex items-center space-x-4">
@@ -56,15 +57,15 @@ const CircularProgress = ({
           <AnimatedNumber
             value={score}
             duration={1000}
-            className="text-xl font-black text-[#171717]"
+            className="text-xl font-black text-text"
           />
-          <span className="text-[9px] font-bold text-[#6B6B65] uppercase tracking-wider">/{maxScore}</span>
+          <span className="text-[9px] font-bold text-muted uppercase tracking-wider">/{maxScore}</span>
         </div>
       </div>
 
       <div>
-        <div className="text-xs font-bold text-[#171717]">{label}</div>
-        {sublabel && <div className="text-[11px] text-[#6B6B65] mt-0.5">{sublabel}</div>}
+        <div className="text-xs font-bold text-text">{label}</div>
+        {sublabel && <div className="text-[11px] text-muted mt-0.5">{sublabel}</div>}
       </div>
     </div>
   );

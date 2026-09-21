@@ -1,159 +1,214 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --bg-canvas: #F7F6F2;
-    --card-bg: #FFFFFF;
-    --text-primary: #171717;
-    --text-secondary: #6B6B65;
-    --brand-orange: #E58A4E;
-    --brand-orange-hover: #D4793D;
-    --soft-orange: #F8E8DB;
-    --soft-green: #E5EEE9;
-    --border-color: #E5E3DD;
-  }
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-deep: var(--primary-deep);
+  --color-reward: var(--reward);
+  --color-reward-soft: var(--reward-soft);
+  --color-reward-deep: var(--reward-deep);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --font-sans: 'Nunito', system-ui, -apple-system, sans-serif;
+}
 
+/* ===================== SUNNY STUDY LIGHT ===================== */
+:root {
+  --bg: #FFF8EF;
+  --surface: #FFFDF9;
+  --border: #F0E2CF;
+  --text: #3B2A1E;
+  --muted: #7A6553;
+  --primary: #E8862A;
+  --on-primary: #2B1A0E;
+  --primary-soft: #FFE8CF;
+  --reward: #FFC93C;
+  --reward-soft: #FFF1C2;
+  --success: #6BA368;
+  --danger: #D9534F;
+
+  /* AA-safe foreground variants (text/icons) for light mode */
+  --primary-deep: #A24E0A;
+  --reward-deep: #7A5400;
+
+  /* Warm shadows */
+  --shadow-warm: 0 4px 20px -2px rgba(120,70,20,0.10), 0 2px 6px -1px rgba(120,70,20,0.06);
+  --shadow-warm-hover: 0 8px 32px -4px rgba(120,70,20,0.16), 0 4px 12px -2px rgba(120,70,20,0.09);
+}
+
+/* ===================== SUNNY STUDY DARK ===================== */
+[data-theme="dark"] {
+  --bg: #1F1A16;
+  --surface: #2A231D;
+  --border: #3D332A;
+  --text: #F5EBDD;
+  --muted: #B8A692;
+  --primary: #F59E4B;
+  --on-primary: #24170C;
+  --primary-soft: #40291A;
+  --reward: #FFD25A;
+  --reward-soft: #3F3413;
+  --success: #8CC58A;
+  --danger: #EF7B77;
+
+  /* Dark theme primary/reward already meet AA; deep = same for consistency */
+  --primary-deep: #F59E4B;
+  --reward-deep: #FFD25A;
+
+  --shadow-warm: 0 4px 20px -2px rgba(0,0,0,0.45), 0 2px 6px -1px rgba(245,158,75,0.07);
+  --shadow-warm-hover: 0 8px 32px -4px rgba(0,0,0,0.60), 0 4px 14px -2px rgba(245,158,75,0.14);
+}
+
+/* ===================== BASE STYLES ===================== */
+@layer base {
   body {
-    background-color: var(--bg-canvas);
-    color: var(--text-primary);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Global smooth color transitions */
+  *, *::before, *::after {
+    transition-property: background-color, color, border-color, box-shadow;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Focus rings */
+  :focus-visible {
+    outline: 2.5px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
 }
 
-/* Custom Keyframe Animations */
+/* ===================== KEYFRAME ANIMATIONS ===================== */
 @keyframes pageEnter {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes modalEnter {
-  from {
-    opacity: 0;
-    transform: scale(0.98) translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  from { opacity: 0; transform: scale(0.97) translateY(6px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-@keyframes toastSlide {
-  from {
-    opacity: 0;
-    transform: translateX(100%) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateX(110%) scale(0.94); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
 }
 
 @keyframes shakeOnce {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-4px); }
-  40% { transform: translateX(4px); }
-  60% { transform: translateX(-3px); }
-  80% { transform: translateX(3px); }
-}
-
-@keyframes subtlePulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(1.03); }
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-5px); }
+  40%      { transform: translateX(5px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
 }
 
 @keyframes skeletonShimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
 }
 
-/* Helper Animation Classes */
-.animate-page-enter {
-  animation: pageEnter 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes flamePulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(252,155,9,0.55)); }
+  50%       { transform: scale(1.10) translateY(-1px); filter: drop-shadow(0 0 8px rgba(252,155,9,0.85)); }
 }
 
-.animate-fade-in {
-  animation: fadeIn 200ms ease-out forwards;
+@keyframes popBounce {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.22); }
+  55%  { transform: scale(0.92); }
+  75%  { transform: scale(1.07); }
+  100% { transform: scale(1); }
 }
 
-.animate-modal-enter {
-  animation: modalEnter 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+/* ===================== ANIMATION HELPER CLASSES ===================== */
+.animate-page-enter    { animation: pageEnter 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-fade-in       { animation: fadeIn 220ms ease-out forwards; }
+.animate-modal-enter   { animation: modalEnter 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-toast-slide   { animation: toastSlideIn 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-shake         { animation: shakeOnce 380ms ease-in-out forwards; }
+.animate-flame-pulse   { animation: flamePulse 1.8s ease-in-out infinite; }
+.animate-pop-bounce    { animation: popBounce 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards; }
+.animate-subtle-pulse  { animation: flamePulse 2.2s ease-in-out infinite; }
 
-.animate-toast-slide {
-  animation: toastSlide 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.animate-shake {
-  animation: shakeOnce 350ms ease-in-out forwards;
-}
-
-.animate-subtle-pulse {
-  animation: subtlePulse 2s ease-in-out infinite;
-}
-
+/* ===================== SKELETON SHIMMER ===================== */
 .skeleton-shimmer {
-  background: linear-gradient(90deg, #E5E3DD 25%, #F7F6F2 50%, #E5E3DD 75%);
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--surface) 50%,
+    var(--border) 75%
+  );
   background-size: 200% 100%;
-  animation: skeletonShimmer 1.5s infinite;
+  animation: skeletonShimmer 1.6s ease-in-out infinite;
 }
 
-/* Stagger Delays for Dashboard Loading (<500ms sequence) */
-.stagger-1 { animation-delay: 0ms; }
-.stagger-2 { animation-delay: 50ms; }
-.stagger-3 { animation-delay: 100ms; }
-.stagger-4 { animation-delay: 150ms; }
+/* ===================== STAGGER DELAYS ===================== */
+.stagger-1 { animation-delay:   0ms; }
+.stagger-2 { animation-delay:  60ms; }
+.stagger-3 { animation-delay: 120ms; }
+.stagger-4 { animation-delay: 180ms; }
+.stagger-5 { animation-delay: 240ms; }
 
-/* Micro-Interaction Transitions */
+/* ===================== CARD INTERACTIONS ===================== */
 .card-hover-effect {
-  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  box-shadow: var(--shadow-warm);
+  transition: transform 200ms ease, box-shadow 200ms ease,
+              border-color 200ms ease, background-color 200ms ease;
 }
 .card-hover-effect:hover {
-  transform: translateY(-2px);
-  border-color: #C8C5BD;
-  box-shadow: 0 4px 16px -2px rgba(23, 23, 23, 0.06), 0 2px 6px -1px rgba(23, 23, 23, 0.03);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-warm-hover);
+  border-color: var(--primary);
+}
+.card-hover-effect:active {
+  transform: translateY(-1px) scale(0.99);
 }
 
+/* ===================== BUTTON INTERACTIONS ===================== */
 .btn-primary-effect {
-  transition: transform 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+  transition: transform 150ms ease, box-shadow 150ms ease,
+              opacity 150ms ease, background-color 150ms ease;
 }
 .btn-primary-effect:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px -2px rgba(229, 138, 78, 0.3);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 18px -2px rgba(232, 134, 42, 0.40);
 }
 .btn-primary-effect:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.97);
+  box-shadow: none;
 }
 
+/* ===================== NAV EFFECTS ===================== */
 .nav-item-effect {
-  transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
+  transition: color 150ms ease, background-color 150ms ease;
 }
-.nav-item-effect:hover .nav-icon {
-  transform: translateY(-1px);
-}
+.nav-item-effect:hover .nav-icon { transform: translateY(-1px); }
 
-/* Reduced Motion Override */
+/* ===================== REDUCED MOTION ===================== */
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
-    animation-duration: 0.01ms !important;
+  *, *::before, *::after {
+    animation-duration:       0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+    transition-duration:      0.01ms !important;
+    scroll-behavior:          auto !important;
   }
 }
