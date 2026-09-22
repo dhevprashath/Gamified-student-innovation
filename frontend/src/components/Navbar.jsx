@@ -1,9 +1,9 @@
 import React from 'react';
-import { LayoutDashboard, Lightbulb, Search, Trophy, Rocket, Sparkles, FolderPlus } from 'lucide-react';
+import { LayoutDashboard, Lightbulb, Search, Trophy, Rocket, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ThemeToggle from './ThemeToggle';
 
-const Navbar = ({ activeTab, setActiveTab, projects = [], activeProject, onSelectProject, onCreateProjectModal }) => {
+const Navbar = ({ activeTab, setActiveTab, projects = [], activeProject, onSelectProject }) => {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'advisor',   label: 'AI Advisor',         icon: Lightbulb },
@@ -35,15 +35,15 @@ const Navbar = ({ activeTab, setActiveTab, projects = [], activeProject, onSelec
             </div>
           </div>
 
-          {/* ── Project Selector & New Project ── */}
-          <div className="hidden sm:flex items-center space-x-2.5">
+          {/* ── Project Selector ── */}
+          <div className="hidden md:flex items-center flex-1 justify-center min-w-0 px-3">
             <select
               value={activeProject?.id || ''}
               onChange={(e) => {
                 const p = projects.find(proj => proj.id === Number(e.target.value));
                 if (p) onSelectProject(p);
               }}
-              className="bg-bg border border-border text-text text-xs font-bold rounded-xl px-3 py-2 focus:border-primary cursor-pointer max-w-[200px] truncate shadow-warm hover:border-primary/50 transition-colors"
+              className="bg-bg border border-border text-text text-xs font-bold rounded-xl px-3 py-2 focus:border-primary cursor-pointer max-w-[240px] w-full truncate shadow-warm hover:border-primary/50 transition-colors"
             >
               {projects.map((proj) => (
                 <option key={proj.id} value={proj.id} className="bg-surface text-text">
@@ -51,17 +51,6 @@ const Navbar = ({ activeTab, setActiveTab, projects = [], activeProject, onSelec
                 </option>
               ))}
             </select>
-
-            <motion.button
-              onClick={onCreateProjectModal}
-              whileHover={{ scale: 1.05, y: -1 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-xl bg-primary text-on-primary btn-primary-effect shadow-warm flex items-center space-x-1.5 text-xs font-bold cursor-pointer"
-              title="Create New Project"
-            >
-              <FolderPlus className="w-4 h-4" />
-              <span className="hidden lg:inline">New Project</span>
-            </motion.button>
           </div>
 
           {/* ── Desktop Nav + Theme Toggle ── */}

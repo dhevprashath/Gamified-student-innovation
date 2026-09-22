@@ -61,7 +61,6 @@ const AppContent = () => {
         projects={projects}
         activeProject={activeProject}
         onSelectProject={setActiveProject}
-        onCreateProjectModal={() => setActiveTab('dashboard')}
       />
 
       {/* Main Page Area with Route Page Transitions */}
