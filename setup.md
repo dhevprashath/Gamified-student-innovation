@@ -7,32 +7,33 @@ All commands are PowerShell (Windows). Run them from the repo root
 
 - Python 3.12+
 - Node.js 18+ / npm
-- No database install required — the default uses a **sample SQLite database**
-  stored at `backend\innoquest.db`.
+- MySQL 8.0 database service (e.g. local MySQL server on port 3306)
 
-## 0. Database (one-time, sample SQLite)
+## 0. Database (MySQL 8.0)
 
-The backend ships with a SQLite database by default — no MySQL needed. Create or
-refresh it from the migrations:
+The backend connects directly to MySQL 8.0. Ensure your local MySQL service is running and configure credentials in `backend\.env`:
 
-```powershell
-cd backend
-.\.venv\Scripts\activate
-alembic upgrade head          # creates backend\innoquest.db if missing
+```env
+DATABASE_URL=mysql+pymysql://root:Dhev%401234@127.0.0.1:3306/innoquest
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=Dhev@1234
+DB_NAME=innoquest
 ```
 
-> MySQL 8.0 is still supported: clear `DATABASE_URL` in `backend\.env` and set the
-> `DB_*` vars, then provision the database via `database\init\001_create_db.sql`.
+Provision the database if missing using `database\init\001_create_db.sql` or create database `innoquest` directly in MySQL.
 
 ## 1. Backend (port 8000)
 
+Make sure to run using the project's virtual environment (where `sqlalchemy`, `fastapi`, and `pymysql` are installed):
+
 ```powershell
-  cd backend
-.\.venv\Scripts\activate
-copy .env.example .env        # once; already created in this workspace
-alembic upgrade head          # apply migrations / (re)create sample SQLite db
-python run.py                 # start server -> http://localhost:8000/docs
+cd backend
+.\.venv\Scripts\python.exe run.py   # start server -> http://localhost:8000/docs
 ```
+
+*(Alternatively, activate the virtual environment first with `.\.venv\Scripts\activate` before running `python run.py`).*
 
 ## 2. Frontend (port 5173)
 

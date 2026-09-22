@@ -50,7 +50,7 @@ The platform features a **premium human-designed visual language** built for cla
 |---|---|
 | Frontend | React 19 · Vite 6 · Tailwind CSS v4 · Lucide React · Axios |
 | Backend | FastAPI · SQLAlchemy · Pydantic · Alembic |
-| Database | SQLite (dev default) · MySQL 8.0 (production) |
+| Database | MySQL 8.0 |
 | AI Pipeline | OpenAI / Gemini API endpoints |
 
 ---
@@ -74,14 +74,12 @@ gamified-project/
 > All commands are PowerShell (Windows). Run them from the repo root
 > (`C:\Users\Dhev prashath\OneDrive\Desktop\gamified-project`).
 
-### 0. Database Setup (Sample SQLite)
+### 0. Database Setup (MySQL 8.0)
 
-The backend uses a sample SQLite database (`backend\innoquest.db`) by default:
+The backend connects directly to MySQL 8.0 configured in `backend\.env`:
 
-```powershell
-cd backend
-.\.venv\Scripts\activate
-alembic upgrade head          # creates backend\innoquest.db if missing
+```env
+DATABASE_URL=mysql+pymysql://root:Dhev%401234@127.0.0.1:3306/innoquest
 ```
 
 ### 1. Backend (port 8000)
