@@ -13,21 +13,27 @@ DB_PORT = os.getenv("DB_PORT", "3306")
 DB_NAME = os.getenv("DB_NAME", "innoquest")
 
 MYSQL_DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DATABASE_URL = os.getenv("DATABASE_URL", MYSQL_DATABASE_URL)
 
-# Use DATABASE_URL if set and not pointing to sqlite; otherwise use MYSQL_DATABASE_URL
-env_db_url = os.getenv("DATABASE_URL", "")
-if env_db_url and not env_db_url.startswith("sqlite"):
-    DATABASE_URL = env_db_url
+connect_args = {}
+if DATABASE_URL.startswith("sqlite"):
+    connect_args = {"check_same_thread": False}
+
+# SQLite doesn't support pool_size/max_overflow/pool_recycle; MySQL does
+if DATABASE_URL.startswith("sqlite"):
+    engine = create_engine(
+        DATABASE_URL,
+        connect_args=connect_args,
+        pool_pre_ping=True,
+    )
 else:
-    DATABASE_URL = MYSQL_DATABASE_URL
-
-engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True,
-    pool_recycle=3600,
-    pool_size=10,
-    max_overflow=20,
-)
+    engine = create_engine(
+        DATABASE_URL,
+        pool_pre_ping=True,
+        pool_recycle=3600,
+        pool_size=10,
+        max_overflow=20,
+    )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
