@@ -18,6 +18,9 @@ class InnovationAnalysis(Base):
     technology_domain = Column(String(255), nullable=True)
     expected_impact = Column(Text, nullable=True)
 
+    # 384-dimensional vector embedding from sentence-transformers/all-MiniLM-L6-v2
+    embedding = Column(JSON, nullable=True)
+
     # AI returned fields stored as JSON
     analysis_data = Column(JSON, nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)

@@ -290,6 +290,98 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                 </div>
               </div>
 
+              {/* MiniLM Semantic Similarity & Novelty Indicator */}
+              {data.semantic_analysis && (
+                <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
+                    <div>
+                      <span className="text-[10px] font-extrabold text-primary uppercase tracking-widest">
+                        Online Semantic AI Search (MiniLM 384-dim)
+                      </span>
+                      <h3 className="text-base font-black text-text mt-0.5">Existing Solutions Related to Your Problem</h3>
+                    </div>
+                    <div className="flex items-center space-x-2 bg-primary-soft px-3 py-1.5 rounded-full border border-primary/20 shrink-0">
+                      <span className="text-xs font-extrabold text-primary-deep">
+                        Novelty Indicator: {data.semantic_analysis.novelty_score}/100
+                      </span>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface font-bold text-text">
+                        {data.semantic_analysis.novelty_rating}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 pt-1">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-bold text-text">Top Verified Online Projects & Research</h4>
+                      <span className="text-xs font-extrabold text-primary-deep bg-primary-soft px-2.5 py-1 rounded-lg border border-primary/20">
+                        Highest Problem Similarity: {data.semantic_analysis.max_similarity_percentage || 0}%
+                      </span>
+                    </div>
+
+                    {(!data.semantic_analysis.top_similar_ideas || data.semantic_analysis.top_similar_ideas.length === 0) ? (
+                      <div className="p-4 bg-bg rounded-xl border border-border text-xs text-muted text-center font-medium">
+                        Unable to retrieve external sources right now. Please try again.
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {data.semantic_analysis.top_similar_ideas.map((item, idx) => (
+                          <div key={idx} className="p-4 bg-bg rounded-2xl border border-border space-y-2 hover:border-primary/40 transition-colors">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="space-y-1">
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-xs font-extrabold text-primary-deep bg-primary-soft px-2 py-0.5 rounded-md border border-primary/20">
+                                    #{idx + 1}
+                                  </span>
+                                  <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-surface border border-border text-muted">
+                                    {item.source_type} ({item.source_name})
+                                  </span>
+                                </div>
+                                <h5 className="text-sm font-bold text-text mt-1">{item.title}</h5>
+                              </div>
+                              <span className="text-xs font-black text-primary-deep px-2.5 py-1 rounded-lg bg-primary-soft border border-primary/20 shrink-0">
+                                {item.similarity_percentage}% match
+                              </span>
+                            </div>
+
+                            {item.problem && (
+                              <p className="text-xs text-text bg-surface p-2.5 rounded-xl border border-border/80">
+                                <span className="font-bold text-primary-deep">Problem: </span>
+                                {item.problem}
+                              </p>
+                            )}
+
+                            {item.description && item.description !== item.problem && (
+                              <p className="text-xs text-muted leading-relaxed line-clamp-2 pl-1">
+                                {item.description}
+                              </p>
+                            )}
+
+                            {item.source_url && (
+                              <div className="pt-1 flex justify-end">
+                                <a
+                                  href={item.source_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-primary text-on-primary font-bold rounded-xl text-xs hover:opacity-90 transition-opacity"
+                                >
+                                  <span>View Source</span>
+                                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                                    <path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3z"/>
+                                    <path d="M5 5h6v2H5v12h12v-6h2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/>
+                                  </svg>
+                                </a>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+
+
               {/* Strengths & Weaknesses */}
               <div className="grid sm:grid-cols-2 gap-4">
                 

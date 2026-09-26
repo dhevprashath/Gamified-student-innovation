@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 import logging
 
 from fastapi import FastAPI
@@ -12,21 +13,47 @@ from app.routers import (
     readiness_router,
     research_gap_router,
 )
+from app.services.embedding_service import EmbeddingService
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("innoquest")
 
+from sqlalchemy import text
+
 try:
     Base.metadata.create_all(bind=engine)
     logger.info("Database tables initialized successfully.")
+    
+    # Auto-add embedding column to existing tables if missing
+    with engine.begin() as conn:
+        try:
+            conn.execute(text("ALTER TABLE innovation_analyses ADD COLUMN embedding JSON NULL"))
+        except Exception:
+            pass
+        try:
+            conn.execute(text("ALTER TABLE advisor_submissions ADD COLUMN embedding JSON NULL"))
+        except Exception:
+            pass
 except Exception as e:
     logger.error(f"Error initializing database tables: {e}")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Load MiniLM sentence-transformer model ONCE
+    logger.info("Starting up server and initializing MiniLM embedding model...")
+    EmbeddingService.load_model()
+    yield
+    # Shutdown
+    logger.info("Shutting down server.")
 
 app = FastAPI(
     title="Gamified Student Innovation Platform API",
     description="Backend REST API for AI Innovation Advisor, Research Gap Finder, Gamified Journey, Project Readiness & Pitch Generator",
     version="1.0.0",
+    lifespan=lifespan,
 )
+
 
 app.add_middleware(
     CORSMiddleware,

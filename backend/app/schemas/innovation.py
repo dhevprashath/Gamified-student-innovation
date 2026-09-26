@@ -28,6 +28,7 @@ class InnovationAnalysisData(BaseModel):
     improvements: list[str]
     recommended_technologies: list[str]
     mvp_suggestions: list[str]
+    semantic_analysis: dict[str, Any] | None = None
 
 class InnovationResponse(BaseModel):
     id: int

@@ -30,10 +30,18 @@ Make sure to run using the project's virtual environment (where `sqlalchemy`, `f
 
 ```powershell
 cd backend
-.\.venv\Scripts\python.exe run.py   # start server -> http://localhost:8000/docs
+python -m pip install -r requirements.txt   # installs sentence-transformers and backend dependencies
+python run.py                             # start server -> http://localhost:8000/docs
 ```
 
-*(Alternatively, activate the virtual environment first with `.\.venv\Scripts\activate` before running `python run.py`).*
+*(Note: On server startup, the `sentence-transformers/all-MiniLM-L6-v2` model is loaded once for AI Innovation Advisor semantic similarity analysis).*
+
+### Run Backend Tests (including MiniLM integration test):
+```powershell
+cd backend
+python -m pytest tests/test_minilm_integration.py tests/test_all_endpoints.py -v
+```
+
 
 ## 2. Frontend (port 5173)
 

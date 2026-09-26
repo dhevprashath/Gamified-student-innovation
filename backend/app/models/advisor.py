@@ -12,5 +12,6 @@ class AdvisorSubmission(Base):
     title = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
     target_market = Column(String(255), nullable=True)
+    embedding = Column(JSON, nullable=True)
     ai_feedback = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)

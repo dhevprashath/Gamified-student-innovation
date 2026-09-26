@@ -85,6 +85,18 @@ Note for overall_risk: MUST be one of "Low", "Medium", or "High".
         }
 
     @staticmethod
+    async def analyze_innovation_idea(title: str, description: str, target_market: str = "") -> dict[str, Any]:
+        return await AIService.analyze_innovation(
+            title=title,
+            problem=description,
+            solution=description,
+            users=target_market,
+            domain=target_market,
+            impact=""
+        )
+
+
+    @staticmethod
     async def analyze_research_gap(
         topic: str,
         problem: str,
