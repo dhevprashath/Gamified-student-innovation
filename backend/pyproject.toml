@@ -28,3 +28,6 @@ known-first-party = ["app"]
 testpaths = ["tests"]
 addopts = "-q"
 python_files = ["test_*.py"]
+markers = [
+    "llm: calls the real LLM providers; run with --run-llm",
+]

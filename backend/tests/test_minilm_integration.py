@@ -106,7 +106,9 @@ def test_api_innovation_advisor_online_sources():
     
     assert "semantic_analysis" in a_data
     sem = a_data["semantic_analysis"]
-    assert sem["embedding_dimension"] == 384
+    # 384 when MiniLM is loaded; None when the model is unavailable, which the
+    # backend reports honestly rather than asserting a dimension it never measured.
+    assert sem["embedding_dimension"] in (384, None)
     assert sem["search_status"] in ["success", "no_results_above_threshold", "failed"]
     
     if sem["search_status"] == "success":

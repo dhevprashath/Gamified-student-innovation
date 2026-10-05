@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import JSON, Column, DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy import JSON, Boolean, Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 from app.database import Base
@@ -20,6 +20,15 @@ class InnovationAnalysis(Base):
 
     # 384-dimensional vector embedding from sentence-transformers/all-MiniLM-L6-v2
     embedding = Column(JSON, nullable=True)
+
+    # True when these scores were produced by the local heuristic because the
+    # AI service was unreachable. Surfaced as a column so that a degraded run
+    # can never shadow a genuine analysis in read queries.
+    is_fallback = Column(Boolean, default=False, nullable=False, index=True)
+
+    # SHA-256 of the six analysis inputs. Lets a re-analyze of unchanged text
+    # reuse the stored result instead of spending another API call.
+    input_hash = Column(String(64), nullable=True, index=True)
 
     # AI returned fields stored as JSON
     analysis_data = Column(JSON, nullable=False)

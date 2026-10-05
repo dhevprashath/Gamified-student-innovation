@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Lightbulb, Sparkles, CheckCircle2, AlertTriangle, Cpu, Rocket, Compass, Loader2 } from 'lucide-react';
+import { Lightbulb, Sparkles, CheckCircle2, AlertTriangle, Cpu, Rocket, Compass, Loader2, BookOpen, FolderGit2, Newspaper } from 'lucide-react';
 import ProgressBar from '../components/ProgressBar';
 import RiskBadge from '../components/RiskBadge';
 import CircularProgress from '../components/CircularProgress';
@@ -12,6 +12,182 @@ const AI_STEPS = [
   'Evaluating feasibility...',
   'Preparing recommendations...'
 ];
+
+// Formats a reference into an IEEE-style citation for pasting into a report.
+// IEEE abbreviates given names but keeps surnames intact: "K. F. Haque".
+const toInitials = (name) => {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length < 2) return name.trim(); // single-token names stay as-is
+  return [...parts.slice(0, -1).map((p) => `${p[0].toUpperCase()}.`), parts[parts.length - 1]].join(' ');
+};
+
+const formatPaperCitation = (ref) => {
+  const authors = (ref.authors || []).map(toInitials).filter(Boolean);
+  let authorField;
+  if (!authors.length) {
+    authorField = 'Unknown author';
+  } else if (authors.length > 6) {
+    authorField = `${authors.slice(0, 6).join(', ')}, et al.`;
+  } else if (authors.length > 1) {
+    authorField = `${authors.slice(0, -1).join(', ')}, and ${authors[authors.length - 1]}`;
+  } else {
+    authorField = authors[0];
+  }
+
+  const segments = [authorField, `"${ref.title}"`];
+  if (ref.venue) segments.push(ref.venue);
+  // Conference and journal names usually already carry the year, so repeating
+  // it in brackets just reads as noise.
+  if (ref.year && !String(ref.venue || '').includes(String(ref.year))) {
+    segments.push(`(${ref.year})`);
+  }
+  segments.push(`[Online]. Available: ${ref.url}`);
+  return segments.join(', ');
+};
+
+const formatProjectCitation = (ref) => {
+  const segments = [ref.source_name || ref.title, `"${ref.title}"`];
+  if (ref.language) segments.push(ref.language);
+  if (ref.stars) segments.push(`${ref.stars.toLocaleString()} stars`);
+  if (ref.last_pushed) segments.push(`updated ${ref.last_pushed}`);
+  segments.push(`[Online]. Available: ${ref.url}`);
+  return segments.join(', ');
+};
+
+const formatArticleCitation = (ref) => {
+  const segments = [ref.source_name || 'dev.to', `"${ref.title}"`];
+  if (ref.published) segments.push(ref.published);
+  if (ref.reading_time_min) segments.push(`${ref.reading_time_min} min read`);
+  segments.push(`[Online]. Available: ${ref.url}`);
+  return segments.join(', ');
+};
+
+// Papers get IEEE style because that is what a college report needs; repos and
+// articles have no author/year metadata to format, so they get a plain
+// reference line instead of a bogus citation.
+const formatCitation = (ref) => {
+  if (ref.kind === 'project') return formatProjectCitation(ref);
+  if (ref.kind === 'article') return formatArticleCitation(ref);
+  return formatPaperCitation(ref);
+};
+
+const REFERENCE_SECTIONS = [
+  {
+    key: 'papers',
+    title: 'Academic Papers',
+    label: 'Paper',
+    icon: <BookOpen className="w-3.5 h-3.5" />,
+    chipClass: 'text-primary-deep bg-primary-soft border border-primary/20 px-2 py-0.5 rounded-md',
+    hint: 'Citable evidence from journals and conferences, including IEEE.',
+    emptyHint: 'No matching papers found. Try adding more technical detail to your problem statement and domain.'
+  },
+  {
+    key: 'projects',
+    title: 'Similar Open-Source Projects',
+    label: 'GitHub',
+    icon: <FolderGit2 className="w-3.5 h-3.5" />,
+    chipClass: 'text-text bg-bg px-2 py-0.5 rounded-md border border-border',
+    hint: 'Already-built projects on the same problem. Useful to compare your idea against, or to run.',
+    emptyHint: 'No closely related repositories found for this domain.'
+  },
+  {
+    key: 'articles',
+    title: 'Articles & Guides',
+    label: 'Article',
+    icon: <Newspaper className="w-3.5 h-3.5" />,
+    chipClass: 'text-muted bg-bg px-2 py-0.5 rounded-md border border-border',
+    hint: 'Practical write-ups. Good for implementation detail, weaker as citations.',
+    emptyHint: 'No related articles found for this topic.'
+  }
+];
+
+const ExternalLinkIcon = () => (
+  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+    <path d="M14 3h7v7h-2V6.414l-9.293 9.293-1.414-1.414L17.586 5H14V3z"/>
+    <path d="M5 5h6v2H5v12h12v-6h2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/>
+  </svg>
+);
+
+// One card shape for all three categories, with the kind-specific fields the
+// source actually provides. Nothing is rendered from a guess: if the backend
+// could not measure it, the row is simply absent.
+const ReferenceCard = ({ item, index, section, onCopy }) => {
+  const isPaper = section.key === 'papers';
+  const isProject = section.key === 'projects';
+
+  const meta = isPaper
+    ? [
+        item.authors?.length ? item.authors.join(', ') : null,
+        item.year ? String(item.year) : null
+      ].filter(Boolean).join(' · ')
+    : isProject
+      ? [item.source_name, item.language, item.last_pushed ? `updated ${item.last_pushed}` : null]
+          .filter(Boolean).join(' · ')
+      : [item.source_name, item.reading_time_min ? `${item.reading_time_min} min read` : null]
+          .filter(Boolean).join(' · ');
+
+  return (
+    <div className="p-4 bg-bg rounded-2xl border border-border space-y-2 hover:border-primary/40 transition-colors">
+      <div className="flex items-start justify-between gap-3">
+        <div className="space-y-1 min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-extrabold text-primary-deep bg-primary-soft px-2 py-0.5 rounded-md border border-primary/20">
+              [{index + 1}]
+            </span>
+            <span className={section.chipClass}>
+              {isPaper ? (item.is_preprint ? 'arXiv preprint' : 'Peer-reviewed') : section.label}
+            </span>
+            {isProject && item.stars != null && (
+              <span className="text-[10px] font-bold text-muted bg-surface px-2 py-0.5 rounded-md border border-border">
+                {item.stars.toLocaleString()} stars
+              </span>
+            )}
+            {item.relevance_percentage != null && (
+              <span className="text-[10px] font-bold text-muted bg-surface px-2 py-0.5 rounded-md border border-border">
+                {item.relevance_percentage}% relevant
+              </span>
+            )}
+          </div>
+          <h5 className="text-sm font-bold text-text mt-1 break-words">{item.title}</h5>
+          {meta && <p className="text-[11px] text-muted break-words">{meta}</p>}
+          {isPaper && item.venue && (
+            <p className="text-[11px] text-muted italic break-words">{item.venue}</p>
+          )}
+        </div>
+      </div>
+
+      {item.abstract_snippet && (
+        <p className="text-xs text-text bg-surface p-2.5 rounded-xl border border-border/80 leading-relaxed line-clamp-3">
+          {item.abstract_snippet}
+        </p>
+      )}
+
+      <div className="pt-1 flex flex-wrap justify-end items-center gap-2">
+        {item.doi && (
+          <span className="text-[10px] font-mono text-muted bg-surface px-2 py-1 rounded-md border border-border">
+            DOI: {item.doi}
+          </span>
+        )}
+        <button
+          type="button"
+          onClick={() => onCopy(item)}
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-border text-text font-bold rounded-xl text-xs hover:border-primary/50 hover:bg-primary-soft transition-colors"
+        >
+          <span>Copy Citation</span>
+        </button>
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-on-primary font-bold rounded-xl text-xs hover:opacity-90 transition-opacity"
+        >
+          <span>{isProject ? 'View Repo' : isPaper && !item.doi ? 'Read' : 'View Paper'}</span>
+          <ExternalLinkIcon />
+        </a>
+      </div>
+    </div>
+  );
+};
 
 const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
   const { addToast } = useToast();
@@ -65,6 +241,27 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
       setAnalysisRecord(null);
     } finally {
       setFetching(false);
+    }
+  };
+
+  const handleCopyCitation = async (ref) => {
+    const citation = formatCitation(ref);
+    const label = ref.kind === 'paper' ? 'IEEE format' : 'Reference';
+    try {
+      await navigator.clipboard.writeText(citation);
+      addToast({
+        title: 'Citation copied',
+        description: `${label}: ${citation}`,
+        type: 'success',
+        duration: 4000
+      });
+    } catch {
+      addToast({
+        title: 'Could not copy automatically',
+        description: citation,
+        type: 'info',
+        duration: 6000
+      });
     }
   };
 
@@ -274,6 +471,14 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                   <span className="font-bold text-primary-deep">AI Recommendation: </span>
                   {data.recommendation}
                 </div>
+
+                {data.is_fallback && (
+                  <div className="mt-3 text-xs text-text leading-relaxed bg-primary-soft p-4 rounded-xl border border-primary/30">
+                    <span className="font-bold text-primary-deep">Heads up: </span>
+                    The AI analysis service was unreachable, so these scores were estimated locally from your
+                    submission text rather than produced by the model. Re-run the analysis for a full review.
+                  </div>
+                )}
               </div>
 
               {/* 6 Sub-Scores Grid */}
@@ -302,7 +507,9 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                     </div>
                     <div className="flex items-center space-x-2 bg-primary-soft px-3 py-1.5 rounded-full border border-primary/20 shrink-0">
                       <span className="text-xs font-extrabold text-primary-deep">
-                        Novelty Indicator: {data.semantic_analysis.novelty_score}/100
+                        {data.semantic_analysis.novelty_score != null
+                          ? `Novelty Indicator: ${data.semantic_analysis.novelty_score}/100`
+                          : 'Novelty Indicator: not assessed'}
                       </span>
                       <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface font-bold text-text">
                         {data.semantic_analysis.novelty_rating}
@@ -314,7 +521,9 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                     <div className="flex items-center justify-between">
                       <h4 className="text-xs font-bold text-text">Top Verified Online Projects & Research</h4>
                       <span className="text-xs font-extrabold text-primary-deep bg-primary-soft px-2.5 py-1 rounded-lg border border-primary/20">
-                        Highest Problem Similarity: {data.semantic_analysis.max_similarity_percentage || 0}%
+                        {data.semantic_analysis.max_similarity_percentage != null
+                          ? `Highest Problem Similarity: ${data.semantic_analysis.max_similarity_percentage}%`
+                          : 'Highest Problem Similarity: not measured'}
                       </span>
                     </div>
 
@@ -382,6 +591,66 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
 
 
 
+{/* References: papers, similar projects, and articles */}
+              {data.references && (
+                <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs space-y-5">
+                  <div className="border-b border-border pb-3">
+                    <span className="text-[10px] font-extrabold text-primary uppercase tracking-widest">
+                      Research & Prior Art
+                    </span>
+                    <h3 className="text-base font-black text-text mt-0.5">
+                      References for Your Project
+                    </h3>
+                    <p className="text-[11px] text-muted leading-relaxed mt-1.5">
+                      Pulled live from Crossref, GitHub and dev.to, so every link below is real.
+                      Papers are your citable evidence, GitHub projects show what already exists,
+                      and articles are implementation ideas.
+                    </p>
+                  </div>
+
+                  {REFERENCE_SECTIONS.map((section) => {
+                    const block = data.references[section.key];
+                    if (!block) return null;
+                    return (
+                      <div key={section.key} className="space-y-2.5">
+                        <div className="flex items-center justify-between gap-3">
+                          <h4 className="text-xs font-black text-text flex items-center gap-2">
+                            <span className={section.chipClass}>{section.icon}</span>
+                            {section.title}
+                          </h4>
+                          <span className="text-[10px] font-extrabold text-muted bg-bg px-2.5 py-1 rounded-lg border border-border">
+                            {block.count} found
+                          </span>
+                        </div>
+
+                        {section.hint && block.count > 0 && (
+                          <p className="text-[10px] text-muted">{section.hint}</p>
+                        )}
+
+                        {!block.items || block.items.length === 0 ? (
+                          <div className="p-3.5 bg-bg rounded-xl border border-border text-xs text-muted text-center font-medium">
+                            {block.status === 'failed'
+                              ? `${section.label} lookup is unavailable right now. Your analysis above is unaffected.`
+                              : section.emptyHint}
+                          </div>
+                        ) : (
+                          <div className="space-y-2.5">
+                            {block.items.map((item, idx) => (
+                              <ReferenceCard
+                                key={item.url || idx}
+                                item={item}
+                                index={idx}
+                                section={section}
+                                onCopy={handleCopyCitation}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
               {/* Strengths & Weaknesses */}
               <div className="grid sm:grid-cols-2 gap-4">
                 

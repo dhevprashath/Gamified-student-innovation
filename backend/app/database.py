@@ -4,7 +4,14 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-load_dotenv()
+# backend/ - the directory holding this file.
+BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# load_dotenv() with no argument searches from the current working directory, so
+# running the server from the repo root would miss backend/.env entirely and
+# fall through to the MySQL defaults. Pointing it at an explicit path keeps the
+# configuration identical no matter where the process is launched from.
+load_dotenv(os.path.join(BACKEND_DIR, ".env"))
 
 DB_USER = os.getenv("DB_USER", "root")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "Dhev@1234")
@@ -14,6 +21,17 @@ DB_NAME = os.getenv("DB_NAME", "innoquest")
 
 MYSQL_DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 DATABASE_URL = os.getenv("DATABASE_URL", MYSQL_DATABASE_URL)
+
+# "sqlite:///./innoquest.db" is resolved against the current working directory,
+# not against this file. Launching the server from the repo root instead of
+# backend/ silently creates and uses a second, empty database, which looks
+# exactly like "the project I just added has vanished". Anchoring the path to
+# this file's directory makes the database location independent of where the
+# command was run from.
+if DATABASE_URL.startswith("sqlite:///"):
+    _raw = DATABASE_URL[len("sqlite:///"):]
+    if _raw and not _raw.startswith("/") and not _raw.startswith("file:"):
+        DATABASE_URL = "sqlite:///" + os.path.join(BACKEND_DIR, _raw)
 
 connect_args = {}
 if DATABASE_URL.startswith("sqlite"):

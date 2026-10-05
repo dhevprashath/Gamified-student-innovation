@@ -12,6 +12,9 @@ class InnovationAnalyzeRequest(BaseModel):
     target_users: str = Field(..., example="Municipal waste management authorities")
     technology_domain: str = Field(..., example="IoT, Machine Learning & Web Dashboard")
     expected_impact: str = Field(..., example="30% reduction in truck fuel usage and zero bin overflow.")
+    # Re-run the model even when an identical previous analysis exists. Used for
+    # explicit "regenerate" actions; the default reuses the cached result.
+    force: bool = Field(default=False, example=False)
 
 class InnovationAnalysisData(BaseModel):
     innovation_score: int

@@ -14,16 +14,18 @@ class EmbeddingService:
         """Loads the sentence-transformer model ONCE at startup."""
         if cls._model is not None:
             return True
-        if cls._loading_error is not None:
-            return False
 
         try:
             logger.info(f"Loading lightweight embedding model '{cls._model_name}'...")
             from sentence_transformers import SentenceTransformer
             cls._model = SentenceTransformer(cls._model_name)
+            cls._loading_error = None
             logger.info(f"Model '{cls._model_name}' loaded successfully.")
             return True
         except Exception as e:
+            # Recorded for the error message only. Deliberately not latched:
+            # a transient failure (offline at boot, half-written download) must
+            # not disable novelty for the rest of the process's life.
             cls._loading_error = str(e)
             logger.error(f"Failed to load embedding model '{cls._model_name}': {e}")
             return False
