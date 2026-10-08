@@ -30,8 +30,9 @@ Make sure to run using the project's virtual environment (where `sqlalchemy`, `f
 
 ```powershell
 cd backend
-python -m pip install -r requirements.txt   # installs sentence-transformers and backend dependencies
-python run.py                             # start server -> http://localhost:8000/docs
+.\.venv\Scripts\activate                     # activate virtual environment
+pip install -r requirements.txt               # installs sentence-transformers and backend dependencies
+python run.py                                # start server -> http://localhost:8000/docs
 ```
 
 *(Note: On server startup, the `sentence-transformers/all-MiniLM-L6-v2` model is loaded once for AI Innovation Advisor semantic similarity analysis).*
@@ -39,7 +40,8 @@ python run.py                             # start server -> http://localhost:800
 ### Run Backend Tests (including MiniLM integration test):
 ```powershell
 cd backend
-python -m pytest tests/test_minilm_integration.py tests/test_all_endpoints.py -v
+.\.venv\Scripts\activate
+pytest tests/test_minilm_integration.py tests/test_all_endpoints.py -v
 ```
 
 
@@ -54,8 +56,9 @@ npm run dev                   # start dev server -> http://localhost:5173
 
 ## 3. Verify it is wired together
 
-- Liveness: `http://localhost:8000/api/v1/health` → `{"success":true,"data":{"status":"ok"}}`
-- Readiness (DB): `http://localhost:8000/api/v1/health/ready`
+- Liveness: `http://localhost:8000/` → `{"status":"online","message":"Gamified Student Innovation Platform API is running."}`
+- DB / API Verification: `http://localhost:8000/api/projects`
+- API Documentation: `http://localhost:8000/docs`
 - UI: `http://localhost:5173` shows the **Backend connectivity** card. The badge
   turns `Connected` when both servers are up and the database is ready.
 
