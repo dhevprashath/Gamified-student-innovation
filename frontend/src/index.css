@@ -1,9 +1,42 @@
 @import "tailwindcss";
 
 @theme {
+  /* ── Typography: Space Grotesk ── */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-weight-extrabold: 700;
+  --font-weight-black: 700;
+
+  /* ── Type scale (16-18px primary text, 1.6 line-height) ── */
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.9375rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+
+  /* ── 8px rounded corners everywhere ── */
+  --radius-md: 8px;
+  --radius-lg: 8px;
+  --radius-xl: 8px;
+  --radius-2xl: 8px;
+  --radius-3xl: 8px;
+
+  /* ── Small hard shadows, no blur ── */
+  --shadow-xs: 3px 3px 0 var(--hard-shadow-color);
+  --shadow-sm: 3px 3px 0 var(--hard-shadow-color);
+  --shadow-md: 4px 4px 0 var(--hard-shadow-color);
+  --shadow-lg: 5px 5px 0 var(--hard-shadow-color);
+  --shadow-xl: 6px 6px 0 var(--hard-shadow-color);
+  --shadow-warm: 3px 3px 0 var(--hard-shadow-color);
+  --shadow-warm-hover: 5px 5px 0 var(--hard-shadow-color);
+
+  /* ── Color bridges ── */
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-border: var(--border);
+  --color-track: var(--track);
   --color-text: var(--text);
   --color-muted: var(--muted);
   --color-primary: var(--primary);
@@ -13,56 +46,80 @@
   --color-reward: var(--reward);
   --color-reward-soft: var(--reward-soft);
   --color-reward-deep: var(--reward-deep);
+  --color-sage: var(--sage);
+  --color-sage-soft: var(--sage-soft);
+  --color-sage-deep: var(--sage-deep);
   --color-success: var(--success);
   --color-danger: var(--danger);
-  --font-sans: 'Nunito', system-ui, -apple-system, sans-serif;
+  --color-danger-soft: var(--danger-soft);
 }
 
-/* ===================== SUNNY STUDY LIGHT ===================== */
+/* ===================== SOFT NEO-BRUTALISM — LIGHT ===================== */
 :root {
-  --bg: #FFF8EF;
-  --surface: #FFFDF9;
-  --border: #F0E2CF;
-  --text: #3B2A1E;
-  --muted: #7A6553;
-  --primary: #E8862A;
-  --on-primary: #2B1A0E;
-  --primary-soft: #FFE8CF;
-  --reward: #FFC93C;
-  --reward-soft: #FFF1C2;
-  --success: #6BA368;
-  --danger: #D9534F;
+  --bg: #F5F0E6;
+  --surface: #FCFAF4;
+  --border: #2B2B2B;
+  --track: #E7E0D2;
+  --text: #2B2B2B;
+  --muted: #5A544A;
 
-  /* AA-safe foreground variants (text/icons) for light mode */
-  --primary-deep: #A24E0A;
-  --reward-deep: #7A5400;
+  /* muted pastel accents */
+  --primary: #F2B8A2;
+  --primary-soft: #F9E3D8;
+  --primary-deep: #8A4B33;
 
-  /* Warm shadows */
-  --shadow-warm: 0 4px 20px -2px rgba(120,70,20,0.10), 0 2px 6px -1px rgba(120,70,20,0.06);
-  --shadow-warm-hover: 0 8px 32px -4px rgba(120,70,20,0.16), 0 4px 12px -2px rgba(120,70,20,0.09);
+  --reward: #9DB8D6;
+  --reward-soft: #E3EDF7;
+  --reward-deep: #3A5878;
+
+  --sage: #A8C3A0;
+  --sage-soft: #E4EDE1;
+  --sage-deep: #4E6B47;
+  --success: #4E6B47;
+
+  --danger: #9A4A38;
+  --danger-soft: #F7E4DC;
+
+  --on-primary: #2B2B2B;
+
+  /* hard shadows */
+  --hard-shadow-color: #2B2B2B;
+  --scrim: rgba(43, 43, 43, 0.62);
+  --shadow-warm: 3px 3px 0 var(--hard-shadow-color);
+  --shadow-warm-hover: 5px 5px 0 var(--hard-shadow-color);
 }
 
-/* ===================== SUNNY STUDY DARK ===================== */
+/* ===================== SOFT NEO-BRUTALISM — DARK ===================== */
 [data-theme="dark"] {
-  --bg: #1F1A16;
-  --surface: #2A231D;
-  --border: #3D332A;
-  --text: #F5EBDD;
-  --muted: #B8A692;
-  --primary: #F59E4B;
-  --on-primary: #24170C;
-  --primary-soft: #40291A;
-  --reward: #FFD25A;
-  --reward-soft: #3F3413;
-  --success: #8CC58A;
-  --danger: #EF7B77;
+  --bg: #1E1E1E;
+  --surface: #262626;
+  --border: #757575;
+  --track: #333333;
+  --text: #EDEDED;
+  --muted: #A8A8A8;
 
-  /* Dark theme primary/reward already meet AA; deep = same for consistency */
-  --primary-deep: #F59E4B;
-  --reward-deep: #FFD25A;
+  --primary: #F2B8A2;
+  --primary-soft: #4A3229;
+  --primary-deep: #F2B8A2;
 
-  --shadow-warm: 0 4px 20px -2px rgba(0,0,0,0.45), 0 2px 6px -1px rgba(245,158,75,0.07);
-  --shadow-warm-hover: 0 8px 32px -4px rgba(0,0,0,0.60), 0 4px 14px -2px rgba(245,158,75,0.14);
+  --reward: #9DB8D6;
+  --reward-soft: #2C3A48;
+  --reward-deep: #9DB8D6;
+
+  --sage: #A8C3A0;
+  --sage-soft: #2A3327;
+  --sage-deep: #A8C3A0;
+  --success: #A8C3A0;
+
+  --danger: #E8A091;
+  --danger-soft: #3A2A26;
+
+  --on-primary: #2B2B2B;
+
+  --hard-shadow-color: #000000;
+  --scrim: rgba(0, 0, 0, 0.68);
+  --shadow-warm: 3px 3px 0 var(--hard-shadow-color);
+  --shadow-warm-hover: 5px 5px 0 var(--hard-shadow-color);
 }
 
 /* ===================== BASE STYLES ===================== */
@@ -70,31 +127,43 @@
   body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
-    font-size: 16px;
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    font-size: 17px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Global smooth color transitions */
   *, *::before, *::after {
     transition-property: background-color, color, border-color, box-shadow;
-    transition-duration: 200ms;
+    transition-duration: 150ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Focus rings */
   :focus-visible {
-    outline: 2.5px solid var(--primary);
-    outline-offset: 2px;
-    border-radius: 6px;
+    outline: 2.5px solid var(--text);
+    outline-offset: 3px;
+    border-radius: 8px;
   }
+}
+
+/* ===================== STRUCTURAL OVERRIDES ===================== */
+/* Unlayered on purpose: these win over Tailwind's layered utilities. */
+.border,
+.border-t,
+.border-b,
+.border-l,
+.border-r {
+  border-width: 2px;
+}
+.rounded,
+.rounded-full {
+  border-radius: 8px;
 }
 
 /* ===================== KEYFRAME ANIMATIONS ===================== */
 @keyframes pageEnter {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -104,7 +173,7 @@
 }
 
 @keyframes modalEnter {
-  from { opacity: 0; transform: scale(0.97) translateY(6px); }
+  from { opacity: 0; transform: scale(0.98) translateY(6px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
@@ -121,22 +190,26 @@
   80%      { transform: translateX(4px); }
 }
 
-@keyframes skeletonShimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position:  200% 0; }
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
 }
 
-@keyframes flamePulse {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(252,155,9,0.55)); }
-  50%       { transform: scale(1.10) translateY(-1px); filter: drop-shadow(0 0 8px rgba(252,155,9,0.85)); }
+@keyframes subtleScale {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.03); }
 }
 
 @keyframes popBounce {
   0%   { transform: scale(1); }
-  30%  { transform: scale(1.22); }
-  55%  { transform: scale(0.92); }
-  75%  { transform: scale(1.07); }
+  30%  { transform: scale(1.18); }
+  55%  { transform: scale(0.94); }
+  75%  { transform: scale(1.05); }
   100% { transform: scale(1); }
+}
+
+@keyframes checkDraw {
+  to { stroke-dashoffset: 0; }
 }
 
 /* ===================== ANIMATION HELPER CLASSES ===================== */
@@ -145,20 +218,14 @@
 .animate-modal-enter   { animation: modalEnter 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-toast-slide   { animation: toastSlideIn 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-shake         { animation: shakeOnce 380ms ease-in-out forwards; }
-.animate-flame-pulse   { animation: flamePulse 1.8s ease-in-out infinite; }
 .animate-pop-bounce    { animation: popBounce 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards; }
-.animate-subtle-pulse  { animation: flamePulse 2.2s ease-in-out infinite; }
+.animate-subtle-pulse  { animation: subtleScale 2.4s ease-in-out infinite; }
+.animate-flame-pulse   { animation: subtleScale 2.4s ease-in-out infinite; }
 
-/* ===================== SKELETON SHIMMER ===================== */
+/* ===================== SKELETON (no gradients) ===================== */
 .skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--border) 25%,
-    var(--surface) 50%,
-    var(--border) 75%
-  );
-  background-size: 200% 100%;
-  animation: skeletonShimmer 1.6s ease-in-out infinite;
+  background-color: var(--track);
+  animation: skeletonPulse 1.6s ease-in-out infinite;
 }
 
 /* ===================== STAGGER DELAYS ===================== */
@@ -168,38 +235,47 @@
 .stagger-4 { animation-delay: 180ms; }
 .stagger-5 { animation-delay: 240ms; }
 
+/* ===================== CHECKMARK DRAW ===================== */
+.check-anim {
+  animation: popBounce 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97) 60ms both;
+}
+.check-anim path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: checkDraw 420ms cubic-bezier(0.16, 1, 0.3, 1) 140ms forwards;
+}
+
 /* ===================== CARD INTERACTIONS ===================== */
 .card-hover-effect {
   box-shadow: var(--shadow-warm);
-  transition: transform 200ms ease, box-shadow 200ms ease,
-              border-color 200ms ease, background-color 200ms ease;
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out,
+              border-color 150ms ease-out, background-color 150ms ease-out;
 }
 .card-hover-effect:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: var(--shadow-warm-hover);
-  border-color: var(--primary);
 }
 .card-hover-effect:active {
-  transform: translateY(-1px) scale(0.99);
+  transform: translateY(0);
+  box-shadow: var(--shadow-warm);
 }
 
 /* ===================== BUTTON INTERACTIONS ===================== */
 .btn-primary-effect {
-  transition: transform 150ms ease, box-shadow 150ms ease,
-              opacity 150ms ease, background-color 150ms ease;
+  transition: transform 120ms ease-out, box-shadow 120ms ease-out,
+              opacity 120ms ease-out, background-color 120ms ease-out;
 }
 .btn-primary-effect:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 18px -2px rgba(232, 134, 42, 0.40);
+  transform: translateY(-1px);
 }
 .btn-primary-effect:active {
-  transform: translateY(0) scale(0.97);
+  transform: translate(3px, 3px);
   box-shadow: none;
 }
 
 /* ===================== NAV EFFECTS ===================== */
 .nav-item-effect {
-  transition: color 150ms ease, background-color 150ms ease;
+  transition: color 150ms ease-out, background-color 150ms ease-out;
 }
 .nav-item-effect:hover .nav-icon { transform: translateY(-1px); }
 

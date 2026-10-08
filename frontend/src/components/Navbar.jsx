@@ -31,7 +31,7 @@ const Navbar = ({ activeTab, setActiveTab, projects = [], activeProject, onSelec
             </motion.div>
             <div>
               <span className="text-lg font-black text-text tracking-tight leading-tight">InnoQuest</span>
-              <span className="block text-[9px] uppercase tracking-widest text-muted font-bold">Student Innovation Platform</span>
+              <span className="block text-[12px] uppercase tracking-widest text-muted font-bold">Student Innovation Platform</span>
             </div>
           </div>
 
@@ -43,7 +43,7 @@ const Navbar = ({ activeTab, setActiveTab, projects = [], activeProject, onSelec
                 const p = projects.find(proj => proj.id === Number(e.target.value));
                 if (p) onSelectProject(p);
               }}
-              className="bg-bg border border-border text-text text-xs font-bold rounded-xl px-3 py-2 focus:border-primary cursor-pointer max-w-[240px] w-full truncate shadow-warm hover:border-primary/50 transition-colors"
+              className="bg-bg border border-border text-text text-xs font-bold rounded-xl px-3 py-2 focus:border-primary-deep cursor-pointer max-w-[240px] w-full truncate shadow-warm hover:border-primary-deep/50 transition-colors"
             >
               {projects.map((proj) => (
                 <option key={proj.id} value={proj.id} className="bg-surface text-text">

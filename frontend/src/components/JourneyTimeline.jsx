@@ -22,7 +22,7 @@ const JourneyTimeline = ({ stages = [], onCompleteStage, completingStage }) => {
                 isDone
                   ? 'bg-surface border-border shadow-xs'
                   : isCurrent
-                  ? 'bg-surface border-primary ring-2 ring-primary/20 shadow-sm'
+                  ? 'bg-surface border-primary-deep ring-2 ring-primary/20 shadow-sm'
                   : 'bg-bg border-border'
               }`}
             >
@@ -30,13 +30,29 @@ const JourneyTimeline = ({ stages = [], onCompleteStage, completingStage }) => {
                 <div
                   className={`w-9 h-9 rounded-xl flex items-center justify-center font-extrabold text-xs shrink-0 transition-transform ${
                     isDone
-                      ? 'bg-primary-soft text-primary-deep border border-primary/40'
+                      ? 'bg-primary-soft text-primary-deep border border-primary-deep/40'
                       : isCurrent
-                      ? 'bg-primary-soft text-primary-deep border border-primary animate-subtle-pulse'
-                      : 'bg-border text-muted'
+                      ? 'bg-primary-soft text-primary-deep border border-primary-deep animate-subtle-pulse'
+                      : 'bg-track text-muted'
                   }`}
                 >
-                  {isDone ? <CheckCircle2 className="w-5 h-5 text-primary" /> : idx + 1}
+                  {isDone ? (
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="w-5 h-5 text-primary-deep check-anim"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path pathLength="100" d="m8 12 3 3 5-6" />
+                    </svg>
+                  ) : (
+                    idx + 1
+                  )}
                 </div>
 
                 <div>
@@ -45,12 +61,12 @@ const JourneyTimeline = ({ stages = [], onCompleteStage, completingStage }) => {
                       {stage.stage_name} Stage
                     </h4>
                     {isCurrent && !isDone && (
-                      <span className="text-[10px] font-bold text-primary-deep bg-primary-soft px-2 py-0.5 rounded-full border border-primary/30 uppercase tracking-wider">
+                      <span className="text-[12px] font-bold text-primary-deep bg-primary-soft px-2 py-0.5 rounded-full border border-primary-deep/30 uppercase tracking-wider">
                         Current Milestone
                       </span>
                     )}
-                    <span className="text-[10px] font-bold text-reward-deep bg-reward-soft px-2 py-0.5 rounded-full flex items-center space-x-0.5">
-                      <Zap className="w-2.5 h-2.5 text-reward" />
+                    <span className="text-[12px] font-bold text-reward-deep bg-reward-soft px-2 py-0.5 rounded-full flex items-center space-x-0.5">
+                      <Zap className="w-2.5 h-2.5 text-reward-deep" />
                       <span>+{stage.xp_reward} XP</span>
                     </span>
                   </div>
@@ -64,9 +80,9 @@ const JourneyTimeline = ({ stages = [], onCompleteStage, completingStage }) => {
 
               <div className="mt-3 md:mt-0 flex items-center space-x-3 self-end md:self-auto">
                 {isDone ? (
-                  <span className="text-xs font-bold text-primary-deep bg-primary-soft px-3 py-1.5 rounded-xl border border-primary/30 flex items-center space-x-1">
+                  <span className="text-xs font-bold text-primary-deep bg-primary-soft px-3 py-1.5 rounded-xl border border-primary-deep/30 flex items-center space-x-1">
                     <span>Completed</span>
-                    <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-primary-deep" />
                   </span>
                 ) : (
                   <button

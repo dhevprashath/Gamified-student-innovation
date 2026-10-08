@@ -79,7 +79,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary-soft text-primary-deep text-xs font-bold mb-3 border border-primary/20">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary-soft text-primary-deep text-xs font-bold mb-3 border border-primary-deep/20">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Student Innovation Workspace</span>
             </div>
@@ -112,7 +112,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
         {/* Card 1: AI Advisor */}
         <motion.div
           custom={0} variants={cardVariants} initial="hidden" animate="visible"
-          whileHover={{ y: -5 }} whileTap={{ scale: 0.97 }}
+          whileHover={{ y: -3 }} whileTap={{ x: 3, y: 3 }}
           onClick={() => setActiveTab('advisor')}
           className="bg-surface border border-border rounded-2xl p-5 shadow-xs cursor-pointer card-hover-effect group"
         >
@@ -130,7 +130,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
         {/* Card 2: Research Gap */}
         <motion.div
           custom={1} variants={cardVariants} initial="hidden" animate="visible"
-          whileHover={{ y: -5 }} whileTap={{ scale: 0.97 }}
+          whileHover={{ y: -3 }} whileTap={{ x: 3, y: 3 }}
           onClick={() => setActiveTab('research')}
           className="bg-surface border border-border rounded-2xl p-5 shadow-xs cursor-pointer card-hover-effect group"
         >
@@ -148,7 +148,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
         {/* Card 3: Innovation Journey */}
         <motion.div
           custom={2} variants={cardVariants} initial="hidden" animate="visible"
-          whileHover={{ y: -5 }} whileTap={{ scale: 0.97 }}
+          whileHover={{ y: -3 }} whileTap={{ x: 3, y: 3 }}
           onClick={() => setActiveTab('journey')}
           className="bg-surface border border-border rounded-2xl p-5 shadow-xs cursor-pointer card-hover-effect group"
         >
@@ -166,7 +166,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
         {/* Card 4: Project Readiness */}
         <motion.div
           custom={3} variants={cardVariants} initial="hidden" animate="visible"
-          whileHover={{ y: -5 }} whileTap={{ scale: 0.97 }}
+          whileHover={{ y: -3 }} whileTap={{ x: 3, y: 3 }}
           onClick={() => setActiveTab('readiness')}
           className="bg-surface border border-border rounded-2xl p-5 shadow-xs cursor-pointer card-hover-effect group"
         >
@@ -217,20 +217,20 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
                   onClick={() => onSelectProject(proj)}
                   className={`p-5 rounded-2xl border transition-all cursor-pointer card-hover-effect ${
                     isSelected 
-                      ? 'bg-surface border-primary ring-2 ring-primary/20 shadow-sm' 
+                      ? 'bg-surface border-primary-deep ring-2 ring-primary/20 shadow-sm' 
                       : 'bg-bg border-border'
                   }`}
                 >
                   <div className="flex justify-between items-start">
                     <h3 className="font-bold text-sm text-text">{proj.title}</h3>
                     {isSelected && (
-                      <span className="text-[10px] uppercase tracking-wider font-extrabold bg-primary-soft text-primary-deep px-2 py-0.5 rounded border border-primary/30">
+                      <span className="text-[12px] uppercase tracking-wider font-extrabold bg-primary-soft text-primary-deep px-2 py-0.5 rounded border border-primary-deep/30">
                         Active
                       </span>
                     )}
                   </div>
                   <p className="text-xs text-muted mt-2 line-clamp-2 leading-relaxed">{proj.description || 'No description provided.'}</p>
-                  <div className="mt-4 pt-3 border-t border-border flex justify-between items-center text-[10px] text-muted font-semibold">
+                  <div className="mt-4 pt-3 border-t border-border flex justify-between items-center text-[12px] text-muted font-semibold">
                     <span>Domain: {proj.domain || 'General'}</span>
                     <span>{new Date(proj.created_at).toLocaleDateString()}</span>
                   </div>
@@ -246,7 +246,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
       {showCreateModal && (
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(31,26,22,0.62)] backdrop-blur-xs p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--scrim)] backdrop-blur-xs p-4"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 12 }}
@@ -267,7 +267,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
                   placeholder="e.g. Smart Agriculture Soil Sensor"
                   value={newTitle}
                   onChange={(e) => { setNewTitle(e.target.value); setFormError(''); }}
-                  className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                  className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
                 />
               </div>
 
@@ -278,7 +278,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
                   placeholder="e.g. AgriTech / Internet of Things"
                   value={newDomain}
                   onChange={(e) => setNewDomain(e.target.value)}
-                  className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                  className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
                 />
               </div>
 
@@ -289,7 +289,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
                   placeholder="Leave blank to auto-generate a title-relevant default problem statement..."
                   value={newProblem}
                   onChange={(e) => setNewProblem(e.target.value)}
-                  className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                  className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
                 />
               </div>
 
@@ -300,7 +300,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
                   placeholder="Briefly describe what your project aims to accomplish..."
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
-                  className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                  className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
                 />
               </div>
 
@@ -314,7 +314,7 @@ const Dashboard = ({ projects = [], activeProject, onSelectProject, onCreateProj
                 <button
                   type="button"
                   onClick={() => { setShowCreateModal(false); setFormError(''); }}
-                  className="flex-1 py-2.5 bg-bg hover:bg-border text-text rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                  className="flex-1 py-2.5 bg-bg hover:bg-track text-text rounded-xl text-xs font-bold transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>

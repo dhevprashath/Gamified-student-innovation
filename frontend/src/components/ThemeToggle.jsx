@@ -42,7 +42,7 @@ const ThemeToggle = ({ className = '' }) => {
       onClick={toggle}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.92 }}
-      className={`p-2 rounded-xl bg-surface border border-border text-muted hover:text-primary hover:border-primary/50 shadow-warm cursor-pointer ${className}`}
+      className={`p-2 rounded-xl bg-surface border border-border text-muted hover:text-primary-deep hover:border-primary-deep/50 shadow-warm cursor-pointer ${className}`}
       aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
       title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
       id="theme-toggle"

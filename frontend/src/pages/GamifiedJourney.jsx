@@ -50,7 +50,7 @@ const GamifiedJourney = ({ progress, setProgress, setActiveTab }) => {
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-reward-soft text-reward text-xs font-bold mb-2 border border-reward/20">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-reward-soft text-reward-deep text-xs font-bold mb-2 border border-reward/20">
               <Trophy className="w-3.5 h-3.5" />
               <span>Module 3 — Gamified Innovation Journey</span>
             </div>
@@ -64,12 +64,12 @@ const GamifiedJourney = ({ progress, setProgress, setActiveTab }) => {
           <div className="bg-bg border border-border rounded-2xl p-4 min-w-[280px] shadow-warm">
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center space-x-2">
-                <Award className="w-5 h-5 text-reward" />
+                <Award className="w-5 h-5 text-reward-deep" />
                 <span className="text-sm font-black text-text">Level {level} Innovator</span>
               </div>
-              <span className="text-xs font-bold text-primary">{xp} total XP</span>
+              <span className="text-xs font-bold text-primary-deep">{xp} total XP</span>
             </div>
-            <div className="w-full bg-border rounded-full h-3 overflow-hidden">
+            <div className="w-full bg-track rounded-full h-3 overflow-hidden">
               <motion.div
                 className="bg-reward h-full rounded-full"
                 initial={{ width: 0 }}
@@ -77,7 +77,7 @@ const GamifiedJourney = ({ progress, setProgress, setActiveTab }) => {
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               />
             </div>
-            <div className="flex justify-between text-[10px] text-muted mt-1">
+            <div className="flex justify-between text-[12px] text-muted mt-1">
               <span>{xp} XP</span>
               <span>Next Level: {nextLevelXP} XP</span>
             </div>
@@ -88,20 +88,20 @@ const GamifiedJourney = ({ progress, setProgress, setActiveTab }) => {
       {/* Badges Bar */}
       <div className="bg-surface border border-border rounded-3xl p-5 shadow-xs">
         <h3 className="text-xs font-bold text-text uppercase tracking-wider mb-3 flex items-center space-x-2">
-          <ShieldCheck className="w-4 h-4 text-reward" />
+          <ShieldCheck className="w-4 h-4 text-reward-deep" />
           <span>Unlocked Innovation Badges ({progress?.unlocked_badges?.length || 0})</span>
         </h3>
         <div className="flex flex-wrap gap-3">
           {progress?.unlocked_badges?.map((badge, idx) => (
             <motion.div
               key={idx}
-              whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.04 }} whileTap={{ x: 3, y: 3 }}
               className="flex items-center space-x-2 bg-reward-soft border border-reward/30 px-3 py-1.5 rounded-xl shadow-warm"
             >
               <span className="text-base">{badge.title?.split(' ')[0] || '🏆'}</span>
               <div>
-                <div className="text-xs font-bold text-reward">{badge.title || 'Badge'}</div>
-                <div className="text-[10px] text-muted">{badge.description}</div>
+                <div className="text-xs font-bold text-reward-deep">{badge.title || 'Badge'}</div>
+                <div className="text-[12px] text-muted">{badge.description}</div>
               </div>
             </motion.div>
           ))}
@@ -111,7 +111,7 @@ const GamifiedJourney = ({ progress, setProgress, setActiveTab }) => {
       {/* Quests Catalog */}
       {loading ? (
         <div className="p-12 text-center text-muted">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto text-primary mb-2" />
+          <Loader2 className="w-8 h-8 animate-spin mx-auto text-primary-deep mb-2" />
           <p className="text-sm">Loading Quest Journey...</p>
         </div>
       ) : (
@@ -125,7 +125,7 @@ const GamifiedJourney = ({ progress, setProgress, setActiveTab }) => {
             >
               <div className="flex items-center justify-between mb-4 border-b border-border pb-3">
                 <h2 className="text-base font-bold text-text flex items-center space-x-2">
-                  <span className="w-6 h-6 rounded-full bg-primary-soft border border-primary/30 text-primary text-xs flex items-center justify-center font-bold">
+                  <span className="w-6 h-6 rounded-full bg-primary-soft border border-primary-deep/30 text-primary-deep text-xs flex items-center justify-center font-bold">
                     {stageIdx + 1}
                   </span>
                   <span>{stageGroup.stage} Stage</span>
@@ -146,7 +146,7 @@ const GamifiedJourney = ({ progress, setProgress, setActiveTab }) => {
                       className={`p-4 rounded-2xl border transition-all flex flex-col justify-between ${
                         isDone
                           ? 'bg-bg border-success/40 opacity-85'
-                          : 'bg-bg border-border hover:border-primary/40'
+                          : 'bg-bg border-border hover:border-primary-deep/40'
                       }`}
                     >
                       <div>
@@ -164,14 +164,14 @@ const GamifiedJourney = ({ progress, setProgress, setActiveTab }) => {
                       </div>
 
                       <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
-                        <span className="inline-flex items-center space-x-1 text-xs font-black text-reward bg-reward-soft px-2 py-0.5 rounded border border-reward/20">
+                        <span className="inline-flex items-center space-x-1 text-xs font-black text-reward-deep bg-reward-soft px-2 py-0.5 rounded border border-reward/20">
                           <Zap className="w-3 h-3" />
                           <span>+{quest.xp} XP</span>
                         </span>
 
                         {!isDone && (
                           <motion.button
-                            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                            whileHover={{ scale: 1.05 }} whileTap={{ x: 3, y: 3 }}
                             onClick={() => handleQuestComplete(quest.id, quest.xp)}
                             disabled={isPendingThis}
                             className="px-3 py-1.5 bg-primary hover:opacity-90 text-on-primary rounded-xl text-xs font-bold flex items-center space-x-1 shadow-warm btn-primary-effect disabled:opacity-50 cursor-pointer"

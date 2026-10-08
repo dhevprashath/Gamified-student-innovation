@@ -90,9 +90,9 @@ const InnovationJourney = ({ activeProject }) => {
 
           <button
             onClick={() => loadJourney(activeProject?.id)}
-            className="flex items-center space-x-2 px-4 py-2 bg-bg border border-border hover:bg-border text-text rounded-xl text-xs font-bold transition-colors shrink-0 self-start md:self-auto cursor-pointer"
+            className="flex items-center space-x-2 px-4 py-2 bg-bg border border-border hover:bg-track text-text rounded-xl text-xs font-bold transition-colors shrink-0 self-start md:self-auto cursor-pointer"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-primary" />
+            <RefreshCw className="w-3.5 h-3.5 text-primary-deep" />
             <span>Refresh Journey</span>
           </button>
         </div>
@@ -116,40 +116,40 @@ const InnovationJourney = ({ activeProject }) => {
             
             {/* Stat 1: Total XP (Reward) */}
             <motion.div
-              whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}
+              whileHover={{ y: -3 }} whileTap={{ x: 3, y: 3 }}
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05, duration: 0.3, ease: [0.16,1,0.3,1] }}
               className="bg-surface border border-border rounded-2xl p-4 text-center card-hover-effect"
             >
-              <span className="text-[10px] font-extrabold uppercase text-reward-deep tracking-wider">Total XP</span>
+              <span className="text-[12px] font-extrabold uppercase text-reward-deep tracking-wider">Total XP</span>
               <div className="text-2xl font-black text-text mt-1 flex items-center justify-center space-x-1">
-                <Zap className="w-5 h-5 text-reward fill-reward animate-flame-pulse" />
+                <Zap className="w-5 h-5 text-reward-deep fill-reward animate-flame-pulse" />
                 <AnimatedNumber value={totalXp} />
               </div>
             </motion.div>
 
             {/* Stat 2: Current Level (Reward) */}
             <motion.div
-              whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}
+              whileHover={{ y: -3 }} whileTap={{ x: 3, y: 3 }}
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.10, duration: 0.3, ease: [0.16,1,0.3,1] }}
               className="bg-surface border border-border rounded-2xl p-4 text-center card-hover-effect"
             >
-              <span className="text-[10px] font-extrabold uppercase text-reward-deep tracking-wider">Current Level</span>
+              <span className="text-[12px] font-extrabold uppercase text-reward-deep tracking-wider">Current Level</span>
               <div className="text-2xl font-black text-text mt-1 flex items-center justify-center space-x-1">
-                <Award className="w-5 h-5 text-reward animate-flame-pulse" />
+                <Award className="w-5 h-5 text-reward-deep animate-flame-pulse" />
                 <span>Lvl {level}</span>
               </div>
             </motion.div>
 
             {/* Stat 3: Current Stage */}
             <motion.div
-              whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}
+              whileHover={{ y: -3 }} whileTap={{ x: 3, y: 3 }}
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.3, ease: [0.16,1,0.3,1] }}
               className="bg-surface border border-border rounded-2xl p-4 text-center card-hover-effect"
             >
-              <span className="text-[10px] font-extrabold uppercase text-muted tracking-wider">Current Stage</span>
+              <span className="text-[12px] font-extrabold uppercase text-muted tracking-wider">Current Stage</span>
               <div className="text-base font-extrabold text-text mt-1 truncate">
                 {journeyData.current_stage}
               </div>
@@ -157,12 +157,12 @@ const InnovationJourney = ({ activeProject }) => {
 
             {/* Stat 4: Completion % */}
             <motion.div
-              whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}
+              whileHover={{ y: -3 }} whileTap={{ x: 3, y: 3 }}
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.20, duration: 0.3, ease: [0.16,1,0.3,1] }}
               className="bg-surface border border-border rounded-2xl p-4 text-center card-hover-effect"
             >
-              <span className="text-[10px] font-extrabold uppercase text-primary-deep tracking-wider">Completion</span>
+              <span className="text-[12px] font-extrabold uppercase text-primary-deep tracking-wider">Completion</span>
               <div className="text-2xl font-black text-primary-deep mt-1">
                 <AnimatedNumber value={journeyData.completion_percentage} suffix="%" />
               </div>
@@ -174,7 +174,7 @@ const InnovationJourney = ({ activeProject }) => {
           <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs space-y-3">
             <div className="flex justify-between items-center text-xs">
               <span className="font-bold text-text flex items-center space-x-1.5">
-                <Award className="w-4 h-4 text-reward" />
+                <Award className="w-4 h-4 text-reward-deep" />
                 <span>Level {level} Innovator</span>
               </span>
               <span className="text-muted font-semibold">

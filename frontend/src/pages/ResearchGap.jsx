@@ -105,7 +105,7 @@ const ResearchGap = ({ activeProject, onRefreshJourney }) => {
         {/* Form Column */}
         <div className={`lg:col-span-5 bg-surface border border-border rounded-3xl p-6 shadow-xs h-fit ${isShaking ? 'animate-shake' : ''}`}>
           <h2 className="text-lg font-bold text-text mb-4 flex items-center space-x-2">
-            <BookOpen className="w-5 h-5 text-primary" />
+            <BookOpen className="w-5 h-5 text-primary-deep" />
             <span>Define Research Topic</span>
           </h2>
 
@@ -118,7 +118,7 @@ const ResearchGap = ({ activeProject, onRefreshJourney }) => {
                 placeholder="e.g. Dynamic Urban Waste Route Optimization"
                 value={formData.research_topic}
                 onChange={(e) => { setFormData({ ...formData, research_topic: e.target.value }); setError(null); }}
-                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
@@ -130,7 +130,7 @@ const ResearchGap = ({ activeProject, onRefreshJourney }) => {
                 placeholder="Describe the research or market problem area you are targeting..."
                 value={formData.problem_area}
                 onChange={(e) => { setFormData({ ...formData, problem_area: e.target.value }); setError(null); }}
-                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
@@ -141,7 +141,7 @@ const ResearchGap = ({ activeProject, onRefreshJourney }) => {
                 placeholder="What existing tools or literature approaches currently attempt to solve this?"
                 value={formData.existing_solution}
                 onChange={(e) => setFormData({ ...formData, existing_solution: e.target.value })}
-                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
@@ -152,7 +152,7 @@ const ResearchGap = ({ activeProject, onRefreshJourney }) => {
                 placeholder="e.g. Smart Cities & Logistics"
                 value={formData.target_domain}
                 onChange={(e) => setFormData({ ...formData, target_domain: e.target.value })}
-                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
@@ -196,8 +196,8 @@ const ResearchGap = ({ activeProject, onRefreshJourney }) => {
             <div className="space-y-6 animate-page-enter">
 
               {/* Disclaimer Banner */}
-              <div className="bg-primary-soft/50 border border-primary/30 rounded-2xl p-4 flex items-start space-x-3 text-text text-xs">
-                <AlertCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+              <div className="bg-primary-soft/50 border border-primary-deep/30 rounded-2xl p-4 flex items-start space-x-3 text-text text-xs">
+                <AlertCircle className="w-5 h-5 text-primary-deep shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold block text-text">Academic Suggestion Disclaimer:</span>
                   <span className="text-muted">AI-generated research gaps are suggestions for exploration and should be independently validated against peer-reviewed academic literature.</span>
@@ -214,17 +214,17 @@ const ResearchGap = ({ activeProject, onRefreshJourney }) => {
                   
                   {/* Step 1: Existing Solutions */}
                   <div className="bg-bg border border-border p-4 rounded-2xl">
-                    <span className="text-[10px] font-extrabold uppercase text-muted">Step 1 — Existing Solutions Summary</span>
+                    <span className="text-[12px] font-extrabold uppercase text-muted">Step 1 — Existing Solutions Summary</span>
                     <p className="text-xs text-text mt-1">{data.existing_solution_summary}</p>
                   </div>
 
                   <div className="flex justify-center my-1">
-                    <ArrowDown className="w-4 h-4 text-primary" />
+                    <ArrowDown className="w-4 h-4 text-primary-deep" />
                   </div>
 
                   {/* Step 2: Limitations */}
-                  <div className="bg-primary-soft/40 border border-primary/30 p-4 rounded-2xl">
-                    <span className="text-[10px] font-extrabold uppercase text-primary-deep">Step 2 — Key Limitations</span>
+                  <div className="bg-primary-soft/40 border border-primary-deep/30 p-4 rounded-2xl">
+                    <span className="text-[12px] font-extrabold uppercase text-primary-deep">Step 2 — Key Limitations</span>
                     <ul className="mt-1 space-y-1 text-xs text-text">
                       {data.existing_limitations?.map((lim, i) => (
                         <li key={i} className="flex items-start space-x-2">
@@ -236,26 +236,26 @@ const ResearchGap = ({ activeProject, onRefreshJourney }) => {
                   </div>
 
                   <div className="flex justify-center my-1">
-                    <ArrowDown className="w-4 h-4 text-primary" />
+                    <ArrowDown className="w-4 h-4 text-primary-deep" />
                   </div>
 
                   {/* Step 3: Research Gap */}
-                  <div className="bg-primary-soft border border-primary/30 p-4 rounded-2xl shadow-xs">
-                    <span className="text-[10px] font-extrabold uppercase text-primary-deep">Step 3 — Identified Research Gap</span>
+                  <div className="bg-primary-soft border border-primary-deep/30 p-4 rounded-2xl shadow-xs">
+                    <span className="text-[12px] font-extrabold uppercase text-primary-deep">Step 3 — Identified Research Gap</span>
                     <p className="text-xs text-primary-deep font-bold mt-1 leading-relaxed">{data.research_gap}</p>
-                    <p className="text-[11px] text-muted mt-2">
+                    <p className="text-[12px] text-muted mt-2">
                       <span className="font-bold text-text">Why it matters: </span>
                       {data.why_gap_matters}
                     </p>
                   </div>
 
                   <div className="flex justify-center my-1">
-                    <ArrowDown className="w-4 h-4 text-primary" />
+                    <ArrowDown className="w-4 h-4 text-primary-deep" />
                   </div>
 
                   {/* Step 4: Innovation Opportunity */}
                   <div className="bg-primary text-on-primary p-4 rounded-2xl shadow-xs">
-                    <span className="text-[10px] font-extrabold uppercase text-on-primary/80">Step 4 — Student Innovation Opportunity</span>
+                    <span className="text-[12px] font-extrabold uppercase text-on-primary/80">Step 4 — Student Innovation Opportunity</span>
                     <p className="text-xs text-on-primary font-semibold mt-1">{data.innovation_opportunity}</p>
                   </div>
 
@@ -282,7 +282,7 @@ const ResearchGap = ({ activeProject, onRefreshJourney }) => {
                 <div className="pt-4 border-t border-border grid sm:grid-cols-2 gap-4">
                   <div>
                     <h3 className="text-xs font-bold text-text flex items-center space-x-2 mb-2">
-                      <Sparkles className="w-4 h-4 text-primary" />
+                      <Sparkles className="w-4 h-4 text-primary-deep" />
                       <span>Suggested Project Features</span>
                     </h3>
                     <ul className="space-y-1 text-xs text-text">
@@ -296,7 +296,7 @@ const ResearchGap = ({ activeProject, onRefreshJourney }) => {
 
                   <div>
                     <h3 className="text-xs font-bold text-text flex items-center space-x-2 mb-2">
-                      <GitBranch className="w-4 h-4 text-primary" />
+                      <GitBranch className="w-4 h-4 text-primary-deep" />
                       <span>Future Scope</span>
                     </h3>
                     <ul className="space-y-1 text-xs text-text">

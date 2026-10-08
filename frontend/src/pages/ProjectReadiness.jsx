@@ -131,7 +131,7 @@ const ProjectReadiness = ({ activeProject, onRefreshJourney }) => {
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               
               <div>
-                <span className="text-[10px] font-extrabold uppercase text-primary-deep tracking-widest">Weighted Readiness Score</span>
+                <span className="text-[12px] font-extrabold uppercase text-primary-deep tracking-widest">Weighted Readiness Score</span>
                 <h2 className="text-2xl font-black text-text mt-0.5">{activeProject?.title}</h2>
                 <p className="text-xs text-muted mt-1">Formula: Research (20%) + Validation (20%) + Team (10%) + Prototype (25%) + Testing (15%) + Pitch (10%)</p>
               </div>
@@ -182,7 +182,7 @@ const ProjectReadiness = ({ activeProject, onRefreshJourney }) => {
                       <span className="text-xs text-muted italic">No areas completed yet.</span>
                     ) : (
                       readinessData.completed_areas?.map((area) => (
-                        <span key={area} className="bg-primary-soft border border-primary/30 text-primary-deep text-xs font-bold px-3 py-1 rounded-xl">
+                        <span key={area} className="bg-primary-soft border border-primary-deep/30 text-primary-deep text-xs font-bold px-3 py-1 rounded-xl">
                           ✓ {area}
                         </span>
                       ))
@@ -223,7 +223,7 @@ const ProjectReadiness = ({ activeProject, onRefreshJourney }) => {
                 ) : (
                   readinessData.recommendations?.map((rec, i) => (
                     <div key={i} className="flex items-start space-x-2.5 bg-bg p-3 rounded-xl border border-border text-xs text-text">
-                      <span className="w-4 h-4 rounded-full bg-primary-soft text-primary-deep text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                      <span className="w-4 h-4 rounded-full bg-primary-soft text-primary-deep text-[12px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                         {i + 1}
                       </span>
                       <span>{rec}</span>
@@ -278,7 +278,7 @@ const ProjectReadiness = ({ activeProject, onRefreshJourney }) => {
               <div className="space-y-6 animate-page-enter pt-4 border-t border-border">
                 
                 {/* 2-Minute Pitch Script Box */}
-                <div className="bg-primary-soft/30 border border-primary/30 rounded-2xl p-6 shadow-xs relative">
+                <div className="bg-primary-soft/30 border border-primary-deep/30 rounded-2xl p-6 shadow-xs relative">
                   <div className="flex justify-between items-center mb-3">
                     <h3 className="text-sm font-bold text-primary-deep flex items-center space-x-2">
                       <Presentation className="w-4 h-4" />

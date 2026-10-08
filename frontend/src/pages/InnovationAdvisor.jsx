@@ -77,7 +77,7 @@ const REFERENCE_SECTIONS = [
     title: 'Academic Papers',
     label: 'Paper',
     icon: <BookOpen className="w-3.5 h-3.5" />,
-    chipClass: 'text-primary-deep bg-primary-soft border border-primary/20 px-2 py-0.5 rounded-md',
+    chipClass: 'text-primary-deep bg-primary-soft border border-primary-deep/20 px-2 py-0.5 rounded-md',
     hint: 'Citable evidence from journals and conferences, including IEEE.',
     emptyHint: 'No matching papers found. Try adding more technical detail to your problem statement and domain.'
   },
@@ -127,31 +127,31 @@ const ReferenceCard = ({ item, index, section, onCopy }) => {
           .filter(Boolean).join(' · ');
 
   return (
-    <div className="p-4 bg-bg rounded-2xl border border-border space-y-2 hover:border-primary/40 transition-colors">
+    <div className="p-4 bg-bg rounded-2xl border border-border space-y-2 hover:border-primary-deep/40 transition-colors">
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-1 min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-extrabold text-primary-deep bg-primary-soft px-2 py-0.5 rounded-md border border-primary/20">
+            <span className="text-xs font-extrabold text-primary-deep bg-primary-soft px-2 py-0.5 rounded-md border border-primary-deep/20">
               [{index + 1}]
             </span>
             <span className={section.chipClass}>
               {isPaper ? (item.is_preprint ? 'arXiv preprint' : 'Peer-reviewed') : section.label}
             </span>
             {isProject && item.stars != null && (
-              <span className="text-[10px] font-bold text-muted bg-surface px-2 py-0.5 rounded-md border border-border">
+              <span className="text-[12px] font-bold text-muted bg-surface px-2 py-0.5 rounded-md border border-border">
                 {item.stars.toLocaleString()} stars
               </span>
             )}
             {item.relevance_percentage != null && (
-              <span className="text-[10px] font-bold text-muted bg-surface px-2 py-0.5 rounded-md border border-border">
+              <span className="text-[12px] font-bold text-muted bg-surface px-2 py-0.5 rounded-md border border-border">
                 {item.relevance_percentage}% relevant
               </span>
             )}
           </div>
           <h5 className="text-sm font-bold text-text mt-1 break-words">{item.title}</h5>
-          {meta && <p className="text-[11px] text-muted break-words">{meta}</p>}
+          {meta && <p className="text-[12px] text-muted break-words">{meta}</p>}
           {isPaper && item.venue && (
-            <p className="text-[11px] text-muted italic break-words">{item.venue}</p>
+            <p className="text-[12px] text-muted italic break-words">{item.venue}</p>
           )}
         </div>
       </div>
@@ -164,14 +164,14 @@ const ReferenceCard = ({ item, index, section, onCopy }) => {
 
       <div className="pt-1 flex flex-wrap justify-end items-center gap-2">
         {item.doi && (
-          <span className="text-[10px] font-mono text-muted bg-surface px-2 py-1 rounded-md border border-border">
+          <span className="text-[12px] font-mono text-muted bg-surface px-2 py-1 rounded-md border border-border">
             DOI: {item.doi}
           </span>
         )}
         <button
           type="button"
           onClick={() => onCopy(item)}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-border text-text font-bold rounded-xl text-xs hover:border-primary/50 hover:bg-primary-soft transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-border text-text font-bold rounded-xl text-xs hover:border-primary-deep/50 hover:bg-primary-soft transition-colors"
         >
           <span>Copy Citation</span>
         </button>
@@ -327,7 +327,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
         {/* Form Column */}
         <div className={`lg:col-span-5 bg-surface border border-border rounded-3xl p-6 shadow-xs h-fit ${isShaking ? 'animate-shake' : ''}`}>
           <h2 className="text-lg font-bold text-text mb-4 flex items-center space-x-2">
-            <Sparkles className="w-5 h-5 text-primary" />
+            <Sparkles className="w-5 h-5 text-primary-deep" />
             <span>Enter Innovation Details</span>
           </h2>
 
@@ -340,7 +340,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                 placeholder="e.g. IoT Smart Waste Tracker"
                 value={formData.project_title}
                 onChange={(e) => { setFormData({ ...formData, project_title: e.target.value }); setError(null); }}
-                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
@@ -352,7 +352,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                 placeholder="Describe the exact problem your target users encounter..."
                 value={formData.problem_statement}
                 onChange={(e) => { setFormData({ ...formData, problem_statement: e.target.value }); setError(null); }}
-                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
@@ -364,7 +364,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                 placeholder="Describe how your technology solves this problem..."
                 value={formData.proposed_solution}
                 onChange={(e) => { setFormData({ ...formData, proposed_solution: e.target.value }); setError(null); }}
-                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
@@ -375,7 +375,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                 placeholder="e.g. Municipalities, Campus Operations"
                 value={formData.target_users}
                 onChange={(e) => setFormData({ ...formData, target_users: e.target.value })}
-                className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
               />
             </div>
 
@@ -387,7 +387,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                   placeholder="e.g. IoT, React, AI"
                   value={formData.technology_domain}
                   onChange={(e) => setFormData({ ...formData, technology_domain: e.target.value })}
-                  className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                  className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
                 />
               </div>
 
@@ -398,7 +398,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                   placeholder="e.g. 30% fuel savings"
                   value={formData.expected_impact}
                   onChange={(e) => setFormData({ ...formData, expected_impact: e.target.value })}
-                  className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
+                  className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-xs text-text placeholder-muted transition-colors"
                 />
               </div>
             </div>
@@ -449,7 +449,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
               <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div>
-                    <span className="text-[10px] font-extrabold text-primary-deep uppercase tracking-widest">Analysis Results</span>
+                    <span className="text-[12px] font-extrabold text-primary-deep uppercase tracking-widest">Analysis Results</span>
                     <h2 className="text-xl font-black text-text mt-0.5">{analysisRecord.project_title}</h2>
                     <p className="text-xs text-muted mt-1">Evaluated on {new Date(analysisRecord.created_at).toLocaleDateString()}</p>
                   </div>
@@ -473,7 +473,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                 </div>
 
                 {data.is_fallback && (
-                  <div className="mt-3 text-xs text-text leading-relaxed bg-primary-soft p-4 rounded-xl border border-primary/30">
+                  <div className="mt-3 text-xs text-text leading-relaxed bg-primary-soft p-4 rounded-xl border border-primary-deep/30">
                     <span className="font-bold text-primary-deep">Heads up: </span>
                     The AI analysis service was unreachable, so these scores were estimated locally from your
                     submission text rather than produced by the model. Re-run the analysis for a full review.
@@ -500,18 +500,18 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                 <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
                     <div>
-                      <span className="text-[10px] font-extrabold text-primary uppercase tracking-widest">
+                      <span className="text-[12px] font-extrabold text-primary-deep uppercase tracking-widest">
                         Online Semantic AI Search (MiniLM 384-dim)
                       </span>
                       <h3 className="text-base font-black text-text mt-0.5">Existing Solutions Related to Your Problem</h3>
                     </div>
-                    <div className="flex items-center space-x-2 bg-primary-soft px-3 py-1.5 rounded-full border border-primary/20 shrink-0">
+                    <div className="flex items-center space-x-2 bg-primary-soft px-3 py-1.5 rounded-full border border-primary-deep/20 shrink-0">
                       <span className="text-xs font-extrabold text-primary-deep">
                         {data.semantic_analysis.novelty_score != null
                           ? `Novelty Indicator: ${data.semantic_analysis.novelty_score}/100`
                           : 'Novelty Indicator: not assessed'}
                       </span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface font-bold text-text">
+                      <span className="text-[12px] px-2 py-0.5 rounded-full bg-surface font-bold text-text">
                         {data.semantic_analysis.novelty_rating}
                       </span>
                     </div>
@@ -520,7 +520,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                   <div className="space-y-3 pt-1">
                     <div className="flex items-center justify-between">
                       <h4 className="text-xs font-bold text-text">Top Verified Online Projects & Research</h4>
-                      <span className="text-xs font-extrabold text-primary-deep bg-primary-soft px-2.5 py-1 rounded-lg border border-primary/20">
+                      <span className="text-xs font-extrabold text-primary-deep bg-primary-soft px-2.5 py-1 rounded-lg border border-primary-deep/20">
                         {data.semantic_analysis.max_similarity_percentage != null
                           ? `Highest Problem Similarity: ${data.semantic_analysis.max_similarity_percentage}%`
                           : 'Highest Problem Similarity: not measured'}
@@ -534,11 +534,11 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                     ) : (
                       <div className="space-y-3">
                         {data.semantic_analysis.top_similar_ideas.map((item, idx) => (
-                          <div key={idx} className="p-4 bg-bg rounded-2xl border border-border space-y-2 hover:border-primary/40 transition-colors">
+                          <div key={idx} className="p-4 bg-bg rounded-2xl border border-border space-y-2 hover:border-primary-deep/40 transition-colors">
                             <div className="flex items-start justify-between gap-3">
                               <div className="space-y-1">
                                 <div className="flex items-center space-x-2">
-                                  <span className="text-xs font-extrabold text-primary-deep bg-primary-soft px-2 py-0.5 rounded-md border border-primary/20">
+                                  <span className="text-xs font-extrabold text-primary-deep bg-primary-soft px-2 py-0.5 rounded-md border border-primary-deep/20">
                                     #{idx + 1}
                                   </span>
                                   <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-surface border border-border text-muted">
@@ -547,7 +547,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                                 </div>
                                 <h5 className="text-sm font-bold text-text mt-1">{item.title}</h5>
                               </div>
-                              <span className="text-xs font-black text-primary-deep px-2.5 py-1 rounded-lg bg-primary-soft border border-primary/20 shrink-0">
+                              <span className="text-xs font-black text-primary-deep px-2.5 py-1 rounded-lg bg-primary-soft border border-primary-deep/20 shrink-0">
                                 {item.similarity_percentage}% match
                               </span>
                             </div>
@@ -595,13 +595,13 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
               {data.references && (
                 <div className="bg-surface border border-border rounded-3xl p-6 shadow-xs space-y-5">
                   <div className="border-b border-border pb-3">
-                    <span className="text-[10px] font-extrabold text-primary uppercase tracking-widest">
+                    <span className="text-[12px] font-extrabold text-primary-deep uppercase tracking-widest">
                       Research & Prior Art
                     </span>
                     <h3 className="text-base font-black text-text mt-0.5">
                       References for Your Project
                     </h3>
-                    <p className="text-[11px] text-muted leading-relaxed mt-1.5">
+                    <p className="text-[12px] text-muted leading-relaxed mt-1.5">
                       Pulled live from Crossref, GitHub and dev.to, so every link below is real.
                       Papers are your citable evidence, GitHub projects show what already exists,
                       and articles are implementation ideas.
@@ -618,13 +618,13 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                             <span className={section.chipClass}>{section.icon}</span>
                             {section.title}
                           </h4>
-                          <span className="text-[10px] font-extrabold text-muted bg-bg px-2.5 py-1 rounded-lg border border-border">
+                          <span className="text-[12px] font-extrabold text-muted bg-bg px-2.5 py-1 rounded-lg border border-border">
                             {block.count} found
                           </span>
                         </div>
 
                         {section.hint && block.count > 0 && (
-                          <p className="text-[10px] text-muted">{section.hint}</p>
+                          <p className="text-[12px] text-muted">{section.hint}</p>
                         )}
 
                         {!block.items || block.items.length === 0 ? (
@@ -655,7 +655,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
               <div className="grid sm:grid-cols-2 gap-4">
                 
                 {/* Strengths */}
-                <div className="bg-surface border border-primary/30 rounded-3xl p-5 shadow-xs">
+                <div className="bg-surface border border-primary-deep/30 rounded-3xl p-5 shadow-xs">
                   <h3 className="text-xs font-bold text-primary-deep flex items-center space-x-2 mb-3">
                     <CheckCircle2 className="w-4 h-4" />
                     <span>Identified Strengths</span>
@@ -671,7 +671,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                 </div>
 
                 {/* Weaknesses */}
-                <div className="bg-surface border border-primary/30 rounded-3xl p-5 shadow-xs">
+                <div className="bg-surface border border-primary-deep/30 rounded-3xl p-5 shadow-xs">
                   <h3 className="text-xs font-bold text-primary-deep flex items-center space-x-2 mb-3">
                     <AlertTriangle className="w-4 h-4" />
                     <span>Identified Weaknesses & Risks</span>
@@ -710,7 +710,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
                 <div className="pt-4 border-t border-border grid sm:grid-cols-2 gap-4">
                   <div>
                     <h3 className="text-xs font-bold text-text flex items-center space-x-2 mb-2">
-                      <Cpu className="w-4 h-4 text-primary" />
+                      <Cpu className="w-4 h-4 text-primary-deep" />
                       <span>Recommended Tech Stack</span>
                     </h3>
                     <ul className="space-y-1.5 text-xs text-text">
@@ -724,7 +724,7 @@ const InnovationAdvisor = ({ activeProject, onRefreshJourney }) => {
 
                   <div>
                     <h3 className="text-xs font-bold text-text flex items-center space-x-2 mb-2">
-                      <Rocket className="w-4 h-4 text-primary" />
+                      <Rocket className="w-4 h-4 text-primary-deep" />
                       <span>MVP Feature Suggestions</span>
                     </h3>
                     <ul className="space-y-1.5 text-xs text-text">

@@ -48,7 +48,7 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary-soft text-primary text-xs font-bold mb-2 border border-primary/20">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-primary-soft text-primary-deep text-xs font-bold mb-2 border border-primary-deep/20">
               <Search className="w-3.5 h-3.5" />
               <span>Module 2 — AI Research Gap Finder</span>
             </div>
@@ -58,11 +58,11 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
             </p>
           </div>
           <motion.button
-            whileHover={{ scale: 1.04, y: -1 }} whileTap={{ scale: 0.96 }}
+            whileHover={{ scale: 1.04, y: -1 }} whileTap={{ x: 3, y: 3 }}
             onClick={() => setShowHistory(!showHistory)}
-            className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-bg border border-border hover:border-primary/40 text-text text-xs font-bold self-start md:self-auto transition-colors cursor-pointer"
+            className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-bg border border-border hover:border-primary-deep/40 text-text text-xs font-bold self-start md:self-auto transition-colors cursor-pointer"
           >
-            <History className="w-4 h-4 text-primary" />
+            <History className="w-4 h-4 text-primary-deep" />
             <span>{showHistory ? 'Back to Form' : `History (${history.length})`}</span>
           </motion.button>
         </div>
@@ -85,18 +85,18 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
                 {history.map((item) => (
                   <motion.div
                     key={item.id}
-                    whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}
+                    whileHover={{ y: -3 }} whileTap={{ x: 3, y: 3 }}
                     onClick={() => { setResult(item); setShowHistory(false); }}
-                    className="bg-bg border border-border hover:border-primary/40 rounded-2xl p-4 cursor-pointer card-hover-effect"
+                    className="bg-bg border border-border hover:border-primary-deep/40 rounded-2xl p-4 cursor-pointer card-hover-effect"
                   >
                     <div className="flex justify-between items-start">
-                      <h3 className="font-bold text-primary text-sm">{item.topic}</h3>
-                      <span className="text-[10px] bg-primary-soft text-primary px-2 py-0.5 rounded border border-primary/20">
+                      <h3 className="font-bold text-primary-deep text-sm">{item.topic}</h3>
+                      <span className="text-[12px] bg-primary-soft text-primary-deep px-2 py-0.5 rounded border border-primary-deep/20">
                         {item.domain}
                       </span>
                     </div>
                     <p className="text-xs text-muted mt-2 line-clamp-2">{item.abstract_text || 'No abstract text'}</p>
-                    <div className="text-[10px] text-muted mt-3">
+                    <div className="text-[12px] text-muted mt-3">
                       {new Date(item.created_at).toLocaleDateString()}
                     </div>
                   </motion.div>
@@ -116,7 +116,7 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
             {/* Input Form */}
             <div className="lg:col-span-5 bg-surface border border-border rounded-3xl p-6 shadow-xs h-fit">
               <h2 className="text-base font-bold text-text mb-4 flex items-center space-x-2">
-                <BookOpen className="w-5 h-5 text-primary" />
+                <BookOpen className="w-5 h-5 text-primary-deep" />
                 <span>Define Research Topic</span>
               </h2>
 
@@ -128,7 +128,7 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
                     placeholder="e.g. Healthcare AI / Precision Medicine"
                     value={formData.domain}
                     onChange={(e) => setFormData({ ...formData, domain: e.target.value })}
-                    className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-sm text-text placeholder-muted focus:outline-hidden transition-colors"
+                    className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-sm text-text placeholder-muted focus:outline-hidden transition-colors"
                   />
                 </div>
 
@@ -139,7 +139,7 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
                     placeholder="e.g. Early Diabetes Detection via Continuous PPG Sensors"
                     value={formData.topic}
                     onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
-                    className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-sm text-text placeholder-muted focus:outline-hidden transition-colors"
+                    className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-sm text-text placeholder-muted focus:outline-hidden transition-colors"
                   />
                 </div>
 
@@ -150,7 +150,7 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
                     placeholder="Paste existing abstract, summary, or literature background to analyze for missing gaps..."
                     value={formData.abstract_text}
                     onChange={(e) => setFormData({ ...formData, abstract_text: e.target.value })}
-                    className="w-full bg-bg border border-border focus:border-primary rounded-xl px-3.5 py-2.5 text-sm text-text placeholder-muted focus:outline-hidden transition-colors resize-none"
+                    className="w-full bg-bg border border-border focus:border-primary-deep rounded-xl px-3.5 py-2.5 text-sm text-text placeholder-muted focus:outline-hidden transition-colors resize-none"
                   />
                 </div>
 
@@ -163,7 +163,7 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
                 <motion.button
                   type="submit" disabled={loading}
                   whileHover={!loading ? { scale: 1.02, y: -1 } : {}}
-                  whileTap={!loading ? { scale: 0.97 } : {}}
+                  whileTap={!loading ? { x: 3, y: 3 } : {}}
                   className="w-full py-3 px-4 bg-primary hover:opacity-90 text-on-primary font-bold rounded-xl text-sm shadow-warm flex items-center justify-center space-x-2 disabled:opacity-50 transition-all btn-primary-effect cursor-pointer"
                 >
                   {loading ? (
@@ -201,10 +201,10 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
                   <div className="bg-surface border border-border rounded-2xl p-6 shadow-xs">
                     <div className="flex justify-between items-start">
                       <div>
-                        <span className="text-xs font-bold text-primary uppercase tracking-wider">{result.domain}</span>
+                        <span className="text-xs font-bold text-primary-deep uppercase tracking-wider">{result.domain}</span>
                         <h2 className="text-xl font-bold text-text mt-0.5">{result.topic}</h2>
                       </div>
-                      <span className="bg-primary-soft text-primary border border-primary/20 px-3 py-1 rounded-full text-xs font-semibold">
+                      <span className="bg-primary-soft text-primary-deep border border-primary-deep/20 px-3 py-1 rounded-full text-xs font-semibold">
                         {analysis?.research_maturity || 'Emerging Domain'}
                       </span>
                     </div>
@@ -212,7 +212,7 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
 
                   {/* Identified Research Gaps */}
                   <div className="bg-surface border border-border rounded-2xl p-5 shadow-xs">
-                    <h3 className="text-sm font-bold text-primary flex items-center space-x-2 mb-3">
+                    <h3 className="text-sm font-bold text-primary-deep flex items-center space-x-2 mb-3">
                       <Layers className="w-4 h-4" />
                       <span>Primary Unaddressed Research Gaps</span>
                     </h3>
@@ -224,7 +224,7 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
                           transition={{ delay: idx * 0.05 }}
                           className="flex items-start space-x-3 bg-bg p-3 rounded-xl border border-border"
                         >
-                          <span className="text-primary font-black text-xs mt-0.5 shrink-0">GAP {idx + 1}</span>
+                          <span className="text-primary-deep font-black text-xs mt-0.5 shrink-0">GAP {idx + 1}</span>
                           <span className="text-xs text-text">{gap}</span>
                         </motion.div>
                       ))}
@@ -250,13 +250,13 @@ const ResearchGapFinder = ({ onQuestComplete }) => {
                   <div className="bg-surface border border-border rounded-2xl p-6 space-y-4 shadow-xs">
                     <div>
                       <h3 className="text-sm font-bold text-text flex items-center space-x-2 mb-3">
-                        <HelpCircle className="w-4 h-4 text-primary" />
+                        <HelpCircle className="w-4 h-4 text-primary-deep" />
                         <span>Novel Research Questions to Pursue</span>
                       </h3>
                       <ul className="space-y-2">
                         {analysis?.suggested_research_questions?.map((rq, idx) => (
                           <li key={idx} className="flex items-start space-x-2 text-xs text-text bg-bg p-2.5 rounded-lg border border-border">
-                            <span className="text-primary font-black shrink-0">Q{idx + 1}:</span>
+                            <span className="text-primary-deep font-black shrink-0">Q{idx + 1}:</span>
                             <span>{rq}</span>
                           </li>
                         ))}

@@ -59,13 +59,13 @@ const CircularProgress = ({
             duration={1000}
             className="text-xl font-black text-text"
           />
-          <span className="text-[9px] font-bold text-muted uppercase tracking-wider">/{maxScore}</span>
+          <span className="text-[12px] font-bold text-muted uppercase tracking-wider">/{maxScore}</span>
         </div>
       </div>
 
       <div>
         <div className="text-xs font-bold text-text">{label}</div>
-        {sublabel && <div className="text-[11px] text-muted mt-0.5">{sublabel}</div>}
+        {sublabel && <div className="text-[12px] text-muted mt-0.5">{sublabel}</div>}
       </div>
     </div>
   );

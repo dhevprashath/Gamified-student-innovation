@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import InnovationAdvisor from './pages/InnovationAdvisor';
@@ -64,7 +64,7 @@ const AppContent = () => {
       />
 
       {/* Main Page Area with Route Page Transitions */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <AnimatePresence mode="wait">
           {activeTab === 'dashboard' && (
             <motion.div key="dashboard" {...pageTransition}>
@@ -128,7 +128,9 @@ const AppContent = () => {
 
 const App = () => (
   <ToastProvider>
-    <AppContent />
+    <MotionConfig transition={{ duration: 0.15, ease: 'easeOut' }}>
+      <AppContent />
+    </MotionConfig>
   </ToastProvider>
 );
 
