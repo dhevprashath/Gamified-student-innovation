@@ -9,25 +9,12 @@ const ThemeToggle = ({ className = '' }) => {
     if (attr) return attr;
     const saved = localStorage.getItem('theme');
     if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return 'light';
   });
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handle = (e) => {
-      if (!localStorage.getItem('theme')) {
-        const next = e.matches ? 'dark' : 'light';
-        setTheme(next);
-        document.documentElement.setAttribute('data-theme', next);
-      }
-    };
-    mq.addEventListener('change', handle);
-    return () => mq.removeEventListener('change', handle);
-  }, []);
 
   const toggle = () => {
     const next = theme === 'dark' ? 'light' : 'dark';

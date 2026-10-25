@@ -15,7 +15,7 @@
       (function() {
         try {
           var saved = localStorage.getItem('theme');
-          var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var theme = saved || 'light';
           document.documentElement.setAttribute('data-theme', theme);
         } catch (e) {
           document.documentElement.setAttribute('data-theme', 'light');
@@ -23,7 +23,7 @@
       })();
     </script>
   </head>
-  <body class="bg-[var(--bg)] text-[var(--text)] font-sans antialiased min-h-screen text-[17px] leading-[1.6]">
+  <body class="bg-bg-main text-text-main font-sans antialiased min-h-screen text-[17px] leading-[1.6]">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

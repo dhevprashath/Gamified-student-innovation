@@ -4,18 +4,19 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-heading: 'Plus Jakarta Sans', 'Manrope', sans-serif;
 
-  /* Custom Color Tokens */
-  --color-bg-main: #F7F6F2;
-  --color-text-main: #171717;
-  --color-deep-green: #174C3C;
-  --color-deep-green-hover: #0F3B2F;
-  --color-soft-orange: #E58A4E;
-  --color-soft-green: #DCEFD9;
-  --color-soft-yellow: #F5E58A;
-  --color-soft-pink: #F5B7D2;
-  --color-soft-lavender: #B9A1F5;
-  --color-soft-blue: #A9D8F5;
-  --color-pure-white: #FFFFFF;
+  /* Custom Color Tokens dynamically resolved from CSS variables */
+  --color-bg-main: var(--bg-main);
+  --color-text-main: var(--text-main);
+  --color-border-dark: var(--border-dark);
+  --color-deep-green: var(--deep-green);
+  --color-deep-green-hover: var(--deep-green-hover);
+  --color-soft-orange: var(--soft-orange);
+  --color-soft-green: var(--soft-green);
+  --color-soft-yellow: var(--soft-yellow);
+  --color-soft-pink: var(--soft-pink);
+  --color-soft-lavender: var(--soft-lavender);
+  --color-soft-blue: var(--soft-blue);
+  --color-pure-white: var(--pure-white);
 }
 
 :root {
@@ -33,6 +34,9 @@
   --soft-blue: #A9D8F5;
   --pure-white: #FFFFFF;
 
+  --bg: #F7F6F2;
+  --text: #171717;
+
   --shadow-brutal-sm: 3px 3px 0px #171717;
   --shadow-brutal: 4px 4px 0px #171717;
   --shadow-brutal-md: 5px 5px 0px #171717;
@@ -42,22 +46,25 @@
 [data-theme="dark"] {
   --bg-main: #191B1F;
   --text-main: #F7F6F2;
-  --border-dark: #F7F6F2;
+  --border-dark: #E5E3DD;
   --pure-white: #23272F;
 
-  --deep-green: #246B55;
-  --deep-green-hover: #174C3C;
-  --soft-orange: #E58A4E;
+  --deep-green: #2BB688;
+  --deep-green-hover: #249A73;
+  --soft-orange: #F59E0B;
   --soft-green: #234032;
-  --soft-yellow: #4D451B;
-  --soft-pink: #4F2837;
-  --soft-lavender: #3B315A;
-  --soft-blue: #233D52;
+  --soft-yellow: #EAB308;
+  --soft-pink: #EC4899;
+  --soft-lavender: #A855F7;
+  --soft-blue: #38BDF8;
 
-  --shadow-brutal-sm: 3px 3px 0px #F7F6F2;
-  --shadow-brutal: 4px 4px 0px #F7F6F2;
-  --shadow-brutal-md: 5px 5px 0px #F7F6F2;
-  --shadow-brutal-lg: 6px 6px 0px #F7F6F2;
+  --bg: #191B1F;
+  --text: #F7F6F2;
+
+  --shadow-brutal-sm: 3px 3px 0px #000000;
+  --shadow-brutal: 4px 4px 0px #000000;
+  --shadow-brutal-md: 5px 5px 0px #000000;
+  --shadow-brutal-lg: 6px 6px 0px #000000;
 }
 
 @layer base {
