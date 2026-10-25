@@ -1,0 +1,35 @@
+# Python backend & environments
+backend/
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+
+# Database files & local stray dumps
+database/
+*.db
+*.db*
+*.sqlite*
+*.bak*
+*.stray*
+
+# Documentation & internal architecture
+architecture/
+docs/
+*.md
+!README.md
+
+# Testing & reports
+playwright-report/
+frontend/tests/
+backend/tests/
+.pytest_cache/
+.ruff_cache/
+
+# Git & IDE configs
+.git/
+.github/
+.vscode/
+.idea/

@@ -1,0 +1,12 @@
+{
+  "name": "innoquest-platform",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "InnoQuest — AI-Powered Gamified Student Innovation Platform",
+  "scripts": {
+    "build": "npm --prefix frontend run build",
+    "dev": "npm --prefix frontend run dev",
+    "preview": "npm --prefix frontend run preview"
+  }
+}
