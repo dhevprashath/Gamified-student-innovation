@@ -14,11 +14,11 @@ All commands are PowerShell (Windows). Run them from the repo root
 The backend connects directly to MySQL 8.0. Ensure your local MySQL service is running and configure credentials in `backend\.env`:
 
 ```env
-DATABASE_URL=mysql+pymysql://root:Dhev%401234@127.0.0.1:3306/innoquest
+DATABASE_URL=mysql+pymysql://root:YOUR_MYSQL_PASSWORD@127.0.0.1:3306/innoquest
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_USER=root
-DB_PASSWORD=Dhev@1234
+DB_PASSWORD=YOUR_MYSQL_PASSWORD
 DB_NAME=innoquest
 ```
 

@@ -9,6 +9,7 @@ from app.database import Base, engine
 from app.routers import (
     innovation_router,
     journey_router,
+    module_suggestion_router,
     pitch_router,
     projects_router,
     readiness_router,
@@ -126,11 +127,25 @@ app.add_middleware(
 )
 
 app.include_router(projects_router)
+app.include_router(module_suggestion_router)
 app.include_router(innovation_router)
 app.include_router(research_gap_router)
 app.include_router(journey_router)
 app.include_router(readiness_router)
 app.include_router(pitch_router)
+
+@app.get("/health")
+def health():
+    """Lightweight liveness probe for external status checkers (returns 200)."""
+    return {"status": "healthy"}
+
+
+@app.get("/v1/models")
+def v1_models():
+    """Compat stub: some external tools probe an OpenAI-style /v1/models
+    endpoint; return the served model chain instead of a 404."""
+    return {"object": "list", "data": [{"id": m, "object": "model", "owned_by": "innoquest"} for m in ("gemini-3.6-flash", "gemini-3.1-flash-lite-preview", "gemini-flash-lite-latest")]}
+
 
 @app.get("/")
 def root():
@@ -139,6 +154,8 @@ def root():
         "message": "Gamified Student Innovation Platform API is running.",
         "endpoints": [
             "/api/projects",
+            "/api/modules/suggest",
+            "/api/modules/{project_id}",
             "/api/innovation/analyze",
             "/api/research-gap/analyze",
             "/api/journey/{project_id}",

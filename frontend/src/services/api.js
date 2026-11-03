@@ -26,6 +26,17 @@ export const getProjectDetails = async (projectId) => {
   return resp.data;
 };
 
+// Project Module Suggestions
+export const generateModuleSuggestions = async (projectId) => {
+  const resp = await api.post('/modules/suggest', { project_id: projectId });
+  return resp.data;
+};
+
+export const getModuleSuggestions = async (projectId) => {
+  const resp = await api.get(`/modules/${projectId}`);
+  return resp.data;
+};
+
 // Innovation Advisor
 export const analyzeInnovation = async (data) => {
   const resp = await api.post('/innovation/analyze', data);

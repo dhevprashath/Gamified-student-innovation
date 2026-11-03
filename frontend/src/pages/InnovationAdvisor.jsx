@@ -42,8 +42,12 @@ const InnovationAdvisor = ({ activeProject, setActiveTab, onRefreshJourney }) =>
     try {
       const result = await analyzeInnovation({
         project_id: activeProject.id,
+        project_title: activeProject.title || 'Untitled Project',
         problem_statement: activeProject.problem_statement || activeProject.description || activeProject.title,
-        domain: activeProject.domain || 'Software'
+        proposed_solution: activeProject.description || activeProject.problem_statement || activeProject.title,
+        target_users: activeProject.target_users || 'Student innovators & target end-users',
+        technology_domain: activeProject.domain || 'Software',
+        expected_impact: activeProject.expected_impact || ''
       });
       setAnalysis(result.analysis_data || result);
       if (onRefreshJourney) onRefreshJourney();

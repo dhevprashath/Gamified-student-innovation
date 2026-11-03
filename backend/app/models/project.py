@@ -27,3 +27,4 @@ class Project(Base):
     badges = relationship("Badge", back_populates="project", cascade="all, delete-orphan")
     readiness = relationship("ProjectReadiness", back_populates="project", uselist=False, cascade="all, delete-orphan")
     pitches = relationship("Pitch", back_populates="project", cascade="all, delete-orphan")
+    modules = relationship("ProjectModule", back_populates="project", cascade="all, delete-orphan")

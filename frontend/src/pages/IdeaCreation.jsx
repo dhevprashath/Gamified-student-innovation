@@ -4,6 +4,58 @@ import { Sparkles, ArrowRight, Loader2, Lightbulb } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import { analyzeInnovation, createProject } from '../services/api';
 
+// ── Local default analysis: used only if the AI service fails, so the user
+//    always sees relevant content instead of an error or an empty area. ──
+const buildDefaultAnalysis = (name, problem, solution, users, tech, impact) => {
+  const text = `${problem} ${solution} ${tech}`.toLowerCase();
+  const p = (k) => (text.includes(k) ? 14 : 0);
+  const complexity = /robot|iot|sensor|hardware|drone|model|blockchain|quantum/.test(text) ? 14 : 0;
+
+  const scores = {
+    problem_clarity: Math.min(92, 55 + Math.min(2, (problem || '').split(/\s+/).length / 10 | 0) * 12),
+    technical_feasibility: Math.min(90, 82 - complexity + p('react') + p('python') + p('fastapi') + p('api')),
+    market_potential: /student|campus|colleg|farm|patient|elder|disab/.test(text) ? 74 : 62,
+    financial_feasibility: /hardware|robot|satellite|fusion/.test(text) ? 58 : 80,
+    ethical_score: /health|edu|sustain|farm|safety|disab|environment|waste/.test(text) ? 84 : 66,
+    privacy_security_score: /face|biometric|surveille|track|location/.test(text) ? 55 : 78,
+  };
+  const overall = Math.round(
+    (scores.problem_clarity + scores.technical_feasibility + scores.market_potential +
+      scores.financial_feasibility + scores.ethical_score + scores.privacy_security_score) / 6
+  );
+  const names = (n) => (Array.isArray(n) ? n : []).slice(0, 5);
+
+  return {
+    analysis_data: {
+      innovation_score: overall,
+      ...scores,
+      overall_risk: overall >= 72 ? 'Low' : overall >= 50 ? 'Medium' : 'High',
+      recommendation: solution && solution.trim()
+        ? `'${name}' targets a real problem for ${users || 'your users'}. Sharpens its edge by validating the core need with 10+ ${users || 'target users'} before scaling features beyond the MVP.`
+        : `'${name}' has a clearly framed problem. Add a concrete "how we solve it" (proposed solution) so the AI can properly judge the approach.`,
+      strengths: [
+        `Problem framed around ${users || 'a defined user group'} — good target specificity.`,
+        tech ? `Technology direction noted (${tech}).` : 'Open to flexible technology choices.',
+      ],
+      weaknesses: [
+        solution && solution.trim() ? 'Differentiation vs. existing solutions is not yet quantified.' : 'No proposed solution yet — the evaluation cannot judge approach quality.',
+        'Market and cost assumptions need validation with real data.',
+      ],
+      improvements: [
+        'Add quantified evidence of the problem (numbers, affected group size, current cost).',
+        'Define a testable MVP: smallest feature set that proves the core value.',
+      ],
+      recommended_technologies: tech ? [tech].concat(['FastAPI', 'React', 'MySQL']) : ['React', 'FastAPI', 'MySQL'],
+      mvp_suggestions: [
+        `Build a simple ${text.includes('dashboard') ? 'dashboard' : 'workflow'} around the single most painful step identified in the problem statement.`,
+        'Collect real-user feedback from a pilot of at least 10 users.',
+        'Track and display one measurable impact metric (matching the stated impact).',
+      ],
+      is_fallback: true,
+    },
+  };
+};
+
 const IdeaCreation = ({ activeProject, onSelectProject, setActiveTab, onRefreshProjects }) => {
   const { addToast } = useToast();
   
@@ -47,9 +99,12 @@ const IdeaCreation = ({ activeProject, onSelectProject, setActiveTab, onRefreshP
       // 2. Perform AI analysis
       const analysis = await analyzeInnovation({
         project_id: proj.id,
+        project_title: projectName.trim(),
         problem_statement: problemStatement.trim(),
-        solution_description: proposedSolution.trim(),
-        domain: technology.trim() || 'Software'
+        proposed_solution: proposedSolution.trim() || problemStatement.trim(),
+        target_users: targetUsers.trim() || whoExperiences.trim() || 'Student innovators & target end-users',
+        technology_domain: technology.trim() || 'Software',
+        expected_impact: expectedImpact.trim() || ''
       });
 
       setAnalysisResult(analysis);
@@ -61,11 +116,23 @@ const IdeaCreation = ({ activeProject, onSelectProject, setActiveTab, onRefreshP
         xpBonus: 100
       });
     } catch (err) {
-      console.error('Idea analysis error:', err);
+      console.warn('AI analysis unavailable, using locally generated evaluation for:', projectName.trim(), err);
+      // AI errored (or was unreachable) -> show locally generated default
+      // content related to the entered problem. Never an error screens or
+      // an empty area.
+      setAnalysisResult(buildDefaultAnalysis(
+        projectName.trim(),
+        problemStatement.trim(),
+        proposedSolution.trim(),
+        (targetUsers.trim() || whoExperiences.trim()),
+        technology.trim(),
+        expectedImpact.trim()
+      ));
       addToast({
-        title: 'Analysis Error',
-        description: 'Could not complete AI evaluation. Using fallback scores.',
-        type: 'error'
+        title: 'Idea Analyzed! 🚀',
+        description: 'AI was briefly unavailable, so we generated an instant starter evaluation for you. Re-analyze later for full AI scoring.',
+        type: 'info',
+        xpBonus: 25
       });
     } finally {
       setLoading(false);
@@ -222,7 +289,7 @@ const IdeaCreation = ({ activeProject, onSelectProject, setActiveTab, onRefreshP
               YOUR IDEA HAS POTENTIAL 🚀
             </h3>
             <span className="text-xs font-extrabold bg-pure-white border-2 border-border-dark px-3 py-1 rounded-lg">
-              OVERALL SCORE: {analysisResult.analysis_data?.innovation_score || 84}%
+              OVERALL SCORE: {analysisResult.analysis_data?.innovation_score || 72}%
             </span>
           </div>
 
@@ -256,7 +323,8 @@ const IdeaCreation = ({ activeProject, onSelectProject, setActiveTab, onRefreshP
           <div className="brutal-card p-4 bg-soft-yellow">
             <span className="text-xs font-extrabold uppercase text-text-main">AI RECOMMENDATION</span>
             <p className="text-sm font-semibold text-text-main mt-1">
-              "Your problem is well defined, but your solution needs stronger differentiation against existing campus portals."
+              "{analysisResult.analysis_data?.recommendation ||
+                'Your problem is well defined, but your solution needs stronger differentiation against existing solutions.'}"
             </p>
           </div>
 

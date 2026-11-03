@@ -49,3 +49,17 @@ yarn-error.log*
 *.db
 *.sqlite
 *.sqlite3
+
+# Database backup/stray artifacts (runtime snapshots - never publish)
+*.db.bak-*
+*.db.stray-*
+innoquest.db.*
+
+# Python virtualenvs not caught by generic rules
+backend/.venv/
+
+# Security-sensitive runtime files
+.gcloudignore
+firebase-debug.log*
+ui-debug.log*
+*-debug.log

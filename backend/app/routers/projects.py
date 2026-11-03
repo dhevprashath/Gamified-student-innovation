@@ -2,9 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.models.module_suggestion import ProjectModule
 from app.models.project import Project
 from app.models.user import User
 from app.schemas.project import ProjectCreate, ProjectResponse
+from app.services.module_suggestions import seed_sample_modules
 from app.services.journey_service import JourneyService
 
 router = APIRouter(prefix="/api/projects", tags=["Projects"])
@@ -127,6 +129,10 @@ def create_project(payload: ProjectCreate, db: Session = Depends(get_db)):
 
     # Initialize journey stages and progress
     JourneyService.get_or_create_journey(project.id, db)
+
+    # Seed instantly-available starter sample modules related to this project
+    seed_sample_modules(project, db)
+
     return project
 
 @router.get("", response_model=list[ProjectResponse])
@@ -154,6 +160,7 @@ def list_projects(db: Session = Depends(get_db)):
         db.commit()
         for p in seeded_projects:
             db.refresh(p)
+            seed_sample_modules(p, db)
         return seeded_projects
 
     # Backfill missing problem_statement for existing projects
@@ -171,6 +178,16 @@ def list_projects(db: Session = Depends(get_db)):
         db.commit()
         for proj in projects:
             db.refresh(proj)
+
+    # Backfill starter sample modules for any project created before the
+    # seeding feature existed, so every project has instant idea cards.
+    seeded_modules = False
+    for proj in projects:
+        if not db.query(ProjectModule).filter(ProjectModule.project_id == proj.id).first():
+            seed_sample_modules(proj, db)
+            seeded_modules = True
+    if seeded_modules:
+        db.commit()
 
     return projects
 

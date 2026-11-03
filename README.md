@@ -81,7 +81,7 @@ gamified-project/
 The backend connects directly to MySQL 8.0 configured in `backend\.env`:
 
 ```env
-DATABASE_URL=mysql+pymysql://root:Dhev%401234@127.0.0.1:3306/innoquest
+DATABASE_URL=mysql+pymysql://root:YOUR_MYSQL_PASSWORD@127.0.0.1:3306/innoquest
 ```
 
 ### 1. Backend (port 8000)

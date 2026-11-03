@@ -504,6 +504,114 @@ You MUST return a valid JSON object with the exact keys:
         }
 
     @staticmethod
+    async def suggest_modules(
+        title: str,
+        description: str,
+        domain: str,
+        problem_statement: str = "",
+        target_users: str = "",
+    ) -> dict[str, Any]:
+        prompt = f"""You are an AI Project Architect for a student innovation platform. Given the project below, propose the concrete software modules the student team should build, ordered by build priority.
+
+Project Title: {title}
+Description: {description}
+Domain: {domain}
+Problem Statement: {problem_statement}
+Target Users: {target_users}
+
+Each module must be a self-contained, buildable unit (e.g. "User Authentication", "IoT Sensor Ingestion API", "Analytics Dashboard"), NOT a broad phase. Return ONLY a valid JSON object of shape:
+{{
+  "modules": [
+    {{
+      "name": "<module name>",
+      "category": "<Core Architecture | AI/ML Core | Data & Analytics | UX & Frontend | Integration | Security>",
+      "description": "<2-3 sentence description of what this module does for THIS project>",
+      "priority": "<Critical | High | Recommended | Optional>",
+      "complexity": "<Beginner | Intermediate | Advanced>",
+      "estimated_duration": "<e.g. 1-2 Weeks>",
+      "tech_stack": ["<tech 1>", "<tech 2>"],
+      "key_features": ["<feature 1>", "<feature 2>", "<feature 3>"],
+      "deliverable": "<the concrete artifact that proves the module is done>"
+    }}
+  ]
+}}
+Return 5 to 7 modules. No markdown. No keys other than those listed."""
+
+        result, _ = await AIService._call_llm_json(prompt, temperature=0.4)
+        if result and isinstance(result.get("modules"), list) and result["modules"]:
+            return {"modules": result["modules"][:7], "is_fallback": False}
+
+        return AIService._heuristic_modules(title, description, domain)
+
+    @staticmethod
+    def _heuristic_modules(
+        title: str,
+        description: str,
+        domain: str,
+    ) -> dict[str, Any]:
+        """Used only when the LLM is unreachable. Builds simple, generic but
+        useful module ideas from the project's own text."""
+        topic = domain or "this project"
+        modules = [
+            {
+                "name": "User Authentication & Profiles",
+                "category": "Core Architecture",
+                "description": f"Secure sign-up, login and role handling for the users of '{title}'.",
+                "priority": "Critical",
+                "complexity": "Beginner",
+                "estimated_duration": "1 Week",
+                "tech_stack": ["FastAPI", "JWT", "MySQL"],
+                "key_features": ["Email/password auth", "Session token refresh", "Role-based access"],
+                "deliverable": "Working login flow with protected routes.",
+            },
+            {
+                "name": "Core Data Pipeline",
+                "category": "Data & Analytics",
+                "description": f"Ingest, validate and store the primary data powering '{title}'.",
+                "priority": "Critical",
+                "complexity": "Intermediate",
+                "estimated_duration": "2 Weeks",
+                "tech_stack": ["Python", "Pydantic", "SQLAlchemy"],
+                "key_features": ["Input validation", "Batch upload API", "Data quality checks"],
+                "deliverable": "Populated database with validated records.",
+            },
+            {
+                "name": "AI Analysis Engine",
+                "category": "AI/ML Core",
+                "description": f"Domain-specific intelligence layer that generates insights for {topic}.",
+                "priority": "High",
+                "complexity": "Advanced",
+                "estimated_duration": "2-3 Weeks",
+                "tech_stack": ["Python", "LLM API", "Pandas"],
+                "key_features": ["Prompt pipeline", "Structured JSON outputs", "Fallback handling"],
+                "deliverable": "API endpoint returning scored, structured analysis.",
+            },
+            {
+                "name": "Analytics Dashboard",
+                "category": "UX & Frontend",
+                "description": "Interactive dashboard visualizing progress, scores and recommendations.",
+                "priority": "High",
+                "complexity": "Intermediate",
+                "estimated_duration": "1-2 Weeks",
+                "tech_stack": ["React", "Tailwind CSS", "Recharts"],
+                "key_features": ["Score visualizations", "Gamified progress cards", "Export as PDF"],
+                "deliverable": "Live dashboard wired to backend endpoints.",
+            },
+            {
+                "name": "Notifications & Alerts",
+                "category": "Integration",
+                "description": "Push/email notifications that keep users engaged between sessions.",
+                "priority": "Recommended",
+                "complexity": "Beginner",
+                "estimated_duration": "1 Week",
+                "tech_stack": ["SMTP", "WebSocket", "React Toasts"],
+                "key_features": ["Event triggers", "Email digest", "In-app toasts"],
+                "deliverable": "Alerts fire on key events end-to-end.",
+            },
+        ]
+        return {"modules": modules, "is_fallback": True}
+
+    @staticmethod
     def _extract_json(content: str) -> dict[str, Any] | None:
         """Parses the model reply. Handles fenced code blocks and truncated JSON,
         both of which providers occasionally return despite json_object mode."""
