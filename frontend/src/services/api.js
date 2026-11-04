@@ -1,6 +1,16 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+// Resolves the API base:
+//  - Dev: Vite dev server (http://127.0.0.1:8000/api)
+//  - Prod: point VITE_API_URL (Vercel project env var) at the deployed
+//    backend, e.g. "https://innoquest-api.onrender.com/api".
+//    Never bake localhost into a production build - that is what made
+//    every live-site request hit the visitor's own machine and fail.
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD
+    ? `${window.location.origin}/api`
+    : 'http://127.0.0.1:8000/api');
 
 const api = axios.create({
   baseURL: API_BASE_URL,

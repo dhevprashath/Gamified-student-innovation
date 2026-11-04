@@ -31,6 +31,7 @@ const AppContent = () => {
   const [projects, setProjects] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [backendOffline, setBackendOffline] = useState(false);
 
   // Modal State
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -46,6 +47,7 @@ const AppContent = () => {
 
   const fetchProjects = async () => {
     setLoading(true);
+    setBackendOffline(false);
     try {
       const data = await getProjects();
       const loaded = data || [];
@@ -55,28 +57,18 @@ const AppContent = () => {
           setActiveProject(loaded[0]);
         }
       } else {
-        // Mock default student project if backend returns empty
-        const defaultProj = {
-          id: 1,
-          title: 'AI Student Skill Matching Platform',
-          description: 'Semantic developer & co-founder matching platform using sentence-transformers all-MiniLM-L6-v2.',
-          domain: 'EdTech & AI',
-          problem_statement: 'College students struggle to find skilled project partners and validate early capstone ideas.'
-        };
-        setProjects([defaultProj]);
-        setActiveProject(defaultProj);
+        // Backend reachable and empty -> it seeds its own template projects
+        // server-side; just reflect the empty state until the next fetch.
+        setProjects([]);
+        setActiveProject(null);
       }
     } catch (err) {
       console.error('Failed to fetch projects:', err);
-      const defaultProj = {
-        id: 1,
-        title: 'AI Student Skill Matching Platform',
-        description: 'Semantic developer & co-founder matching platform using sentence-transformers all-MiniLM-L6-v2.',
-        domain: 'EdTech & AI',
-        problem_statement: 'College students struggle to find skilled project partners and validate early capstone ideas.'
-      };
-      setProjects([defaultProj]);
-      setActiveProject(defaultProj);
+      // Production: never pretend the mock project is real user data. Show
+      // an honest connectivity banner and an empty state instead.
+      setBackendOffline(true);
+      setProjects([]);
+      setActiveProject(null);
     } finally {
       setLoading(false);
     }
@@ -149,6 +141,16 @@ const AppContent = () => {
 
           {activeTab === 'dashboard' && (
             <motion.div key="dashboard" {...pageTransition}>
+              {backendOffline && (
+                <div className="brutal-card p-4 mb-6 bg-soft-yellow border-3 border-border-dark space-y-2">
+                  <p className="text-sm font-extrabold text-text-main">⚠ Backend not connected</p>
+                  <p className="text-xs font-semibold text-text-main/80">
+                    The live site is a frontend preview. Start the backend locally
+                    (<code>python run.py</code> in <code>backend/</code>) or point
+                    <code> VITE_API_URL</code> at the deployed backend URL, then rebuild.
+                  </p>
+                </div>
+              )}
               <Dashboard
                 projects={projects}
                 activeProject={activeProject}
