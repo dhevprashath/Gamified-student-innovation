@@ -541,7 +541,11 @@ Return 5 to 7 modules. No markdown. No keys other than those listed."""
         if result and isinstance(result.get("modules"), list) and result["modules"]:
             return {"modules": result["modules"][:7], "is_fallback": False}
 
-        return AIService._heuristic_modules(title, description, domain)
+        # No API key / AI unreachable: reuse the domain-related starter
+        # sample set so the suggestions stay tied to THIS project.
+        from app.services.module_suggestions import sample_modules_for
+        sample = sample_modules_for(title, domain, description)
+        return {"modules": sample["modules"], "is_fallback": True}
 
     @staticmethod
     def _heuristic_modules(
