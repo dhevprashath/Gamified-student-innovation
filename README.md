@@ -57,17 +57,38 @@ The platform features a **premium human-designed visual language** built for cla
 
 ---
 
-## 📁 Repository layout
+## 🗂 Repository layout — MVC organization
 
 ```
 gamified-project/
-├── frontend/           React SPA (Vite + Tailwind v4 + Toast Context)
-├── backend/            FastAPI service (Python + SQLAlchemy)
-├── database/           provisioning scripts + migration notes
-├── docs/               architecture & design docs
-├── architecture/       diagrams
-└── README.md
+├── backend/                    FastAPI services (Python + SQLAlchemy)
+│   └── app/
+│       ├── main.py             App factory, lifespan, router registration
+│       ├── database.py         DB engine/session/provider wiring
+│       ├── models/             MODEL      — SQLAlchemy entities (Project,
+│       │                                   ProjectModule, InnovationAnalysis,
+│       │                                   ResearchGap, Journey*, Badge,
+│       │                                   Readiness, Pitch, User)
+│       ├── schemas/            Contracts  — Pydantic request/response DTOs
+│       ├── services/           Business logic (AI service, embeddings,
+│       │                        module suggestions, journey, readiness,
+│       │                        online search, references)
+│       └── routers/            CONTROLLER — FastAPI endpoints mapping
+│                                   HTTP to service calls
+├── frontend/                   React SPA (MODEL-VIEW separation)
+│   └── src/
+│       ├── services/api.js     Model layer — typed API client + storage
+│       ├── pages/              VIEW — one screen per platform module
+│       ├── components/         VIEW — reusable UI primitives
+│       └── context/            State (toast provider)
+├── database/                   Provisioning scripts + migration notes
+├── architecture/               Diagrams
+├── docs/                       Design docs
+├── render.yaml                 Backend deploy spec (Render)
+└── vercel.json                 Frontend deploy spec (Vercel)
 ```
+
+Request flow: `pages (V) → api.js → routers (C) → services → models (M) → MySQL`.
 
 ---
 

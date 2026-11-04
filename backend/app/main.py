@@ -32,10 +32,6 @@ try:
             conn.execute(text("ALTER TABLE innovation_analyses ADD COLUMN embedding JSON NULL"))
         except Exception:
             pass
-        try:
-            conn.execute(text("ALTER TABLE advisor_submissions ADD COLUMN embedding JSON NULL"))
-        except Exception:
-            pass
         # is_fallback / input_hash back a per-column cache and ordering, so
         # both are added additively to keep existing databases working.
         try:
